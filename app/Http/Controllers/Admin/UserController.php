@@ -9,11 +9,17 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Tampilkan daftar user.
-     */
+    private function mustSuperAdmin()
+    {
+        if (auth()->user()->role !== 'super_admin') {
+            abort(403, 'Akses ditolak.');
+        }
+    }
+
     public function index()
     {
+        $this->mustSuperAdmin();
+
         $users = User::orderBy('role', 'asc')
                     ->orderBy('name', 'asc')
                     ->get();
@@ -21,19 +27,17 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    /**
-     * Form tambah user.
-     */
     public function create()
     {
+        $this->mustSuperAdmin();
+
         return view('admin.users.create');
     }
 
-    /**
-     * Simpan user baru.
-     */
     public function store(Request $request)
     {
+        $this->mustSuperAdmin();
+
         $data = $request->validate([
             'name'     => ['required', 'string', 'max:100'],
             'email'    => ['required', 'email', 'unique:users,email'],
@@ -50,23 +54,21 @@ class UserController extends Controller
                 ->with('success', 'User berhasil ditambahkan.');
     }
 
-    /**
-     * Form edit user.
-     */
     public function edit(User $user)
     {
+        $this->mustSuperAdmin();
+
         return view('admin.users.edit', compact('user'));
     }
 
-    /**
-     * Update user.
-     */
     public function update(Request $request, User $user)
     {
+        $this->mustSuperAdmin();
+
         $data = $request->validate([
-            'name'  => ['required', 'string', 'max:100'],
-            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
-            'role'  => ['required', 'in:admin,super_admin'],
+            'name'     => ['required', 'string', 'max:100'],
+            'email'    => ['required', 'email', 'unique:users,email,' . $user->id],
+            'role'     => ['required', 'in:admin,super_admin'],
             'password' => ['nullable', 'min:6'],
         ]);
 
@@ -81,17 +83,14 @@ class UserController extends Controller
                 ->with('success', 'User berhasil diperbarui.');
     }
 
-    /**
-     * Hapus user.
-     */
     public function destroy(User $user)
     {
-        // Cegah super admin hapus dirinya sendiri
+        $this->mustSuperAdmin();
+
         if (auth()->id() === $user->id) {
             return back()->with('success', 'Anda tidak dapat menghapus akun Anda sendiri.');
         }
 
-        // Cegah super admin dihapus oleh admin
         if ($user->role === 'super_admin' && auth()->user()->role !== 'super_admin') {
             return back()->with('success', 'Anda tidak memiliki izin untuk menghapus Super Admin.');
         }
@@ -102,5 +101,4 @@ class UserController extends Controller
             ->route('users.index')
             ->with('success', 'User berhasil dihapus.');
     }
-
 }
