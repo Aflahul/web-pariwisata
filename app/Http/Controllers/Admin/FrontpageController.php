@@ -40,7 +40,7 @@ class FrontpageController extends Controller
             // HERO
             'hero_title'    => 'nullable|string|max:255',
             'hero_subtitle' => 'nullable|string',
-            'hero_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'hero_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4048',
 
             // WELCOME
             'welcome_title' => 'nullable|string|max:255',

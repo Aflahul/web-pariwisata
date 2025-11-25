@@ -1,0 +1,58 @@
+{{-- AKOMODASI REKOMENDASI --}}
+@if ($akomodasi->count())
+    <div class="container-fluid training bg-light overflow-hidden py-5">
+        <div class="container">
+
+            {{-- JUDUL --}}
+            <div class="section-title text-center z-50 wow fadeInUp" data-wow-delay="0.1s" style="margin-bottom: 70px;">
+                <div class="sub-style">
+                    <h5 class="sub-title text-primary px-3">AKOMODASI</h5>
+                </div>
+                <h1 class="display-5 mb-4">Akomodasi Rekomendasi di Supiori</h1>
+                <p class="mb-0">Pilihan tempat menginap terbaik dengan kenyamanan dan akses mudah ke lokasi wisata.</p>
+            </div>
+
+            <div class="row g-4">
+
+                @foreach ($akomodasi as $akom)
+                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="{{ $loop->iteration * 0.2 }}s">
+                        <div class="training-item p-4">
+
+                            {{-- FOTO --}}
+                            <div class="training-img mb-4 rounded overflow-hidden">
+                                <img src="{{ image_path($akom->images[0] ?? null) }}"
+                                     alt="{{ $akom->nama }}"
+                                     class="img-fluid w-100">
+                            </div>
+
+                            {{-- NAMA --}}
+                            <h5 class="mb-3">{{ $akom->nama }}</h5>
+
+                            {{-- TIPE & HARGA --}}
+                            <p class="mb-2">
+                                <i class="fa fa-home text-primary me-2"></i>
+                                {{ $akom->tipe ?: 'Akomodasi' }}
+                            </p>
+
+                            @if ($akom->price_range)
+                                <p class="mb-3">
+                                    <i class="fa fa-tag text-primary me-2"></i>
+                                    {{ $akom->price_range }}
+                                </p>
+                            @endif
+
+                            {{-- LINK DETAIL --}}
+                            <a class="btn btn-primary border-secondary rounded-pill py-3 px-5"
+                               href="{{ route('front.akomodasi.show', $akom->slug) }}">
+                                Lihat Detail
+                            </a>
+
+                        </div>
+                    </div>
+                @endforeach
+
+            </div>
+
+        </div>
+    </div>
+@endif

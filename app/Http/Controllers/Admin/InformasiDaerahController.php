@@ -29,8 +29,8 @@ class InformasiDaerahController extends Controller
             'subtitle'  => 'nullable|string|max:255',
             'content'   => 'required|string',
 
-            // file tunggal max 2MB
-            'image'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            // file tunggal max 4MB
+            'image'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4048',
         ]);
 
         $info = InformasiDaerah::first() ?? new InformasiDaerah;

@@ -64,10 +64,11 @@
                 </a>
 
                 {{-- Galeri Daerah --}}
-                <a href="{{ route('admin.web.galeri.index') }}"
+                {{-- <a href="{{ route('admin.web.galeri.index') }}"
                     class="nav-item nav-link ms-4 {{ request()->routeIs('admin.web.galeri.*') ? 'active' : '' }}">
                     <i class="fa fa-camera me-2"></i> Galeri Daerah
-                </a>
+                </a> --}}
+                
                 {{-- Kontak Resmi --}}
                 <a href="{{ route('admin.web.kontak.edit') }}"
                     class="nav-item nav-link ms-4 {{ request()->routeIs('admin.web.kontak.*') ? 'active' : '' }}">

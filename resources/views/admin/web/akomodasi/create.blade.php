@@ -118,7 +118,7 @@
                         <div class="mb-3">
                             <label class="form-label">Gambar (bisa upload banyak)</label>
                             <input type="file" name="images[]" class="form-control" multiple accept="image/*">
-                            <small class="text-muted">Max per file: 4MB | Format: jpg, png, webp</small>
+                            <small class="text-muted">Max per file: 2MB | Format: jpg, png, webp</small>
                         </div>
 
                         {{-- PUBLISHED --}}
