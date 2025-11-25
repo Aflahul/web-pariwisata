@@ -174,6 +174,8 @@ class AkomodasiController extends Controller
             ->with('success', 'Akomodasi berhasil diperbarui.');
     }
 
+
+    //fungsi edit masih bermasalah di saat klik simpan data malah terhapus
     /**
      * DELETE
      */

@@ -73,7 +73,6 @@
         </div>
     </div>
 </footer>
-{{-- STRIP MERAH BAWAH --}}
 {{-- STRIP MERAH BAWAH (Enhanced Version) --}}
 <div class="container-fluid py-3 bg-secondary">
 
