@@ -29,10 +29,12 @@
                     class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
             @if (auth()->check() && auth()->user()->role === 'super_admin')
-                <a href="{{ route('users.index') }}"
-                    class="nav-item nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}"><i
-                        class="fa fa-users me-2"></i>Manajemen User</a>
+                <a href="{{ route('admin.users.index') }}"
+                    class="nav-item nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                    <i class="fa fa-users me-2"></i>Manajemen User
+                </a>
             @endif
+
 
             {{-- MENU UTAMA: Manajemen Web --}}
             <a href="#menuWeb" class="nav-item nav-link {{ request()->is('admin/web-management*') ? 'active' : '' }}"

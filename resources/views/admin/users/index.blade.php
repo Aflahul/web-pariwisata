@@ -11,7 +11,7 @@
 
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h4 class="mb-0">Manajemen User</h4>
-                <a href="{{ route('users.create') }}" class="btn btn-primary">
+                <a href="{{ route('admin.users.create') }}" class="btn btn-primary">
                     <i class="fa fa-plus me-1"></i> User Baru
                 </a>
             </div>
@@ -46,7 +46,7 @@
                                 </td>
                                 <td>
 
-                                    <a href="{{ route('users.edit', $u->id) }}" class="btn btn-sm btn-warning px-3 me-1"
+                                    <a href="{{ route('admin.users.edit', $u->id) }}" class="btn btn-sm btn-warning px-3 me-1"
                                         aria-label="Edit {{ $u->name }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
@@ -62,7 +62,7 @@
                                         {{-- Hapus user lain --}}
                                         <button type="button" class="btn btn-sm btn-danger px-3" data-bs-toggle="modal"
                                             data-bs-target="#modalDelete" data-user-name="{{ $u->name }}"
-                                            data-delete-url="{{ route('users.destroy', $u->id) }}">
+                                            data-delete-url="{{ route('admin.users.destroy', $u->id) }}">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     @endif
