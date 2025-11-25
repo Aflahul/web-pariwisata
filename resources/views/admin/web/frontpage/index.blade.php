@@ -174,7 +174,7 @@
 
                     {{-- TAB LOGO --}}
                     <div class="tab-pane fade" id="tabLogo">
-                        <h5 class="mb-3">Logo & Favicon</h5>
+                        <h5 class="mb-3">Logo </h5>
 
                         <div class="mb-3">
                             <label class="form-label">Logo Website</label>
@@ -186,15 +186,15 @@
                             @endif
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Favicon</label>
+                        {{-- <div class="mb-3">
+                            <label class="form-label">Logo Icon</label>
                             <input type="file" name="favicon" class="form-control">
 
                             @if (!empty($settings->favicon))
                                 <img src="{{ asset('storage/' . $settings->favicon) }}" class="img-fluid mt-3 rounded"
                                     style="max-height: 80px;">
                             @endif
-                        </div>
+                        </div> --}}
                     </div>
 
                 </div>

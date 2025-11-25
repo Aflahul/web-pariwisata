@@ -47,5 +47,21 @@ html, body {
 }
 
 
+/* Biar judul admin wrap, tidak overflow */
+.admin-title {
+    font-size: 1.1rem;
+    line-height: 1.2;
+    white-space: normal !important;     /* IZINKAN turun baris */
+    word-break: break-word;             /* Pecah jika terlalu panjang */
+}
+
+/* Pada layar kecil: perkecil font & beri margin */
+@media (max-width: 576px) {
+    .admin-title {
+        font-size: .95rem;
+        margin-left: 0.5rem;
+    }
+}
+
 
 /* Atur padding content agar tidak mepet */

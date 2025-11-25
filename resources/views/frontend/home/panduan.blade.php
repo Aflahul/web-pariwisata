@@ -1,6 +1,7 @@
 {{-- PANDUAN WISATA / WHY CHOOSE US --}}
-<style>
-.counter-facts {
+@if ($fp && ($fp->guide1_title || $fp->guide2_title || $fp->guide3_title))
+{{-- <style>
+.featuress {
     background:
         linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
         url("{{ image_path($fp->hero_image ?? null) }}");
@@ -9,11 +10,8 @@
     background-position: center center;
     background-repeat: no-repeat;
 }
-</style>
-
-@if ($fp && ($fp->guide1_title || $fp->guide2_title || $fp->guide3_title))
-
-    <div class="container-fluid counter-facts py-5">
+</style> --}}
+    <div class="container-fluid features overflow-hidden py-5">
         <div class="container">
 
             {{-- JUDUL --}}
@@ -28,7 +26,7 @@
 
                 {{-- Guide 1 --}}
                 @if ($fp->guide1_title)
-                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="col-md-6 col-lg-4 wow fadeInUp " data-wow-delay="0.1s ">
                         <div class="feature-item text-center p-4">
                             <div class="feature-icon p-3 mb-4">
                                 <i class="fas fa-map-marked-alt fa-3x text-primary"></i>
