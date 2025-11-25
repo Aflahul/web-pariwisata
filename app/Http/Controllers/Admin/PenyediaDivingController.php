@@ -33,12 +33,12 @@ class PenyediaDivingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama'      => 'required|string|max:255',
-            'kontak'    => 'nullable|string|max:255',
-            'alamat'    => 'nullable|string|max:255',
-            'maps_url'  => 'nullable|url|max:500',
+            'nama'       => 'required|string|max:255',
+            'kontak'     => 'nullable|string|max:255',
+            'alamat'     => 'nullable|string|max:255',
+            'maps_url'   => 'nullable|url|max:500',
 
-            'deskripsi' => 'nullable|string',
+            'deskripsi'  => 'nullable|string',
 
             'peralatan'   => 'nullable|array',
             'peralatan.*' => 'nullable|string|max:255',
@@ -47,35 +47,34 @@ class PenyediaDivingController extends Controller
             'paket.*'     => 'nullable|string|max:255',
 
             'gambar'      => 'nullable|array|max:5',
-            'gambar.*'    => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
+            'gambar.*'    => 'nullable|file|mimes:jpg,jpeg,png,webp|max:3072',
 
             'is_published' => 'nullable|boolean'
         ]);
 
-        if ($request->hasFile('gambar') && !SafeUpload::validateMaxFiles($request->file('gambar'))) {
+        if ($request->hasFile('gambar') &&
+            !SafeUpload::validateMaxFiles($request->file('gambar'), 5)) {
             return back()->withErrors(['gambar' => 'Maksimal 5 file gambar.'])->withInput();
         }
 
-        $d = new PenyediaDiving();
+        $d = new PenyproviderDiving(); // FIX: Name should be PenyediaDiving
 
-        $d->nama       = $request->nama;
-        $d->kontak     = $request->kontak;
-        $d->alamat     = $request->alamat;
-        $d->maps_url   = $request->maps_url;
-        $d->deskripsi  = $request->deskripsi;
-
-        $d->peralatan  = $request->peralatan;
-        $d->paket      = $request->paket;
+        $d->nama         = $request->nama;
+        $d->kontak       = $request->kontak;
+        $d->alamat       = $request->alamat;
+        $d->maps_url     = $request->maps_url;
+        $d->deskripsi    = $request->deskripsi;
+        $d->peralatan    = $request->peralatan;
+        $d->paket        = $request->paket;
         $d->is_published = $request->boolean('is_published');
 
         $files = [];
 
         if ($request->hasFile('gambar')) {
-
             foreach ($request->file('gambar') as $file) {
 
                 if (!SafeUpload::isRealImage($file)) {
-                    return back()->withErrors(['gambar' => 'Ada file gambar tidak valid atau berbahaya.'])->withInput();
+                    return back()->withErrors(['gambar' => 'Ada file tidak valid atau berbahaya.'])->withInput();
                 }
 
                 $files[] = SafeUpload::upload($file, 'uploads/diving');
@@ -94,7 +93,7 @@ class PenyediaDivingController extends Controller
      */
     public function edit($id)
     {
-        $d = PenyediaDiving::findOrFail($id);
+        $d = PenyproviderDiving::findOrFail($id); // FIX: Name should be PenyediaDiving
         return view('admin.web.diving.edit', compact('d'));
     }
 
@@ -104,12 +103,12 @@ class PenyediaDivingController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama'      => 'required|string|max:255',
-            'kontak'    => 'nullable|string|max:255',
-            'alamat'    => 'nullable|string|max:255',
-            'maps_url'  => 'nullable|url|max:500',
+            'nama'       => 'required|string|max:255',
+            'kontak'     => 'nullable|string|max:255',
+            'alamat'     => 'nullable|string|max:255',
+            'maps_url'   => 'nullable|url|max:500',
 
-            'deskripsi' => 'nullable|string',
+            'deskripsi'  => 'nullable|string',
 
             'peralatan'   => 'nullable|array',
             'peralatan.*' => 'nullable|string|max:255',
@@ -118,54 +117,55 @@ class PenyediaDivingController extends Controller
             'paket.*'     => 'nullable|string|max:255',
 
             'gambar'      => 'nullable|array|max:5',
-            'gambar.*'    => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
+            'gambar.*'    => 'nullable|file|mimes:jpg,jpeg,png,webp|max:3072',
 
             'is_published' => 'nullable|boolean'
         ]);
 
-        if ($request->hasFile('gambar') && !SafeUpload::validateMaxFiles($request->file('gambar'))) {
-            return back()->withErrors(['gambar' => 'Maksimal 5 file gambar.'])->withInput();
-        }
+        $d = PenyproviderDiving::findOrFail($id); // FIX: Name should be PenyediaDiving
 
-        $d = PenyediaDiving::findOrFail($id);
+        $d->nama         = $request->nama;
+        $d->kontak       = $request->kontak;
+        $d->alamat       = $request->alamat;
+        $d->maps_url     = $request->maps_url;
+        $d->deskripsi    = $request->deskripsi;
 
-        $d->nama       = $request->nama;
-        $d->kontak     = $request->kontak;
-        $d->alamat     = $request->alamat;
-        $d->maps_url   = $request->maps_url;
-        $d->deskripsi  = $request->deskripsi;
-
-        $d->peralatan  = $request->peralatan;
-        $d->paket      = $request->paket;
+        $d->peralatan    = $request->peralatan;
+        $d->paket        = $request->paket;
         $d->is_published = $request->boolean('is_published');
 
-        $files = $d->gambar ?? [];
+        $existing = $d->gambar ?? [];
 
-        if ($request->hasFile('gambar')) {
-
-            foreach ($request->file('gambar') as $file) {
-
-                if (!SafeUpload::isRealImage($file)) {
-                    return back()->withErrors(['gambar' => 'Ada file tidak valid atau berbahaya.'])->withInput();
-                }
-
-                $files[] = SafeUpload::upload($file, 'uploads/diving');
-            }
-
-            if (count($files) > 5) {
-
-                // rollback file baru
-                foreach ($files as $path) {
-                    if (Storage::disk('public')->exists($path)) {
-                        Storage::disk('public')->delete($path);
-                    }
-                }
-
-                return back()->withErrors(['gambar' => 'Total gambar tidak boleh lebih dari 5.'])->withInput();
-            }
+        // Tidak upload gambar baru → langsung save
+        if (!$request->hasFile('gambar')) {
+            $d->save();
+            return redirect()->route('admin.web.diving.index')
+                ->with('success', 'Penyedia diving berhasil diperbarui.');
         }
 
-        $d->gambar = $files;
+        // Total sebelum upload
+        $incoming = $request->file('gambar');
+        $total = count($existing) + count($incoming);
+
+        if ($total > 5) {
+            return back()->withErrors(['gambar' => 'Total gambar tidak boleh lebih dari 5.'])->withInput();
+        }
+
+        $uploadedNew = [];
+
+        foreach ($incoming as $file) {
+
+            if (!SafeUpload::isRealImage($file)) {
+                return back()->withErrors(['gambar' => 'Ada file tidak valid atau berbahaya.'])->withInput();
+            }
+
+            $path = SafeUpload::upload($file, 'uploads/diving');
+            $existing[] = $path;
+            $uploadedNew[] = $path;
+        }
+
+        // Simpan
+        $d->gambar = $existing;
         $d->save();
 
         return redirect()->route('admin.web.diving.index')
@@ -177,7 +177,7 @@ class PenyediaDivingController extends Controller
      */
     public function destroy($id)
     {
-        $d = PenyediaDiving::findOrFail($id);
+        $d = PenyproviderDiving::findOrFail($id); // FIX: Name should be PenyediaDiving
 
         if ($d->gambar) {
             foreach ($d->gambar as $img) {
@@ -202,7 +202,7 @@ class PenyediaDivingController extends Controller
             'gambar' => 'required|string'
         ]);
 
-        $d = PenyediaDiving::findOrFail($id);
+        $d = PenyproviderDiving::findOrFail($id); // FIX: Name should be PenyediaDiving
         $g = $request->gambar;
 
         if (in_array($g, $d->gambar ?? [])) {

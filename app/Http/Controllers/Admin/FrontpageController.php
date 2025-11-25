@@ -11,43 +11,29 @@ use App\Helpers\SafeUpload;
 
 class FrontpageController extends Controller
 {
-    /**
-     * Tampilkan halaman pengaturan frontpage.
-     */
     public function index()
     {
         $settings = FrontpageSetting::first() ?? new FrontpageSetting();
-
-        // Decode slider agar tidak error di view
         $settings->slider = $settings->slider ? json_decode($settings->slider, true) : [];
 
-        // Ambil destinasi untuk pilihan slider
-        // PERBAIKAN: kolom adalah "nama", bukan "name"
         $destinasi = Destinasi::orderBy('nama')->get();
 
         return view('admin.web.frontpage.index', compact('settings', 'destinasi'));
     }
 
-    /**
-     * Update pengaturan frontpage (aman level produksi)
-     */
     public function update(Request $request)
     {
         $settings = FrontpageSetting::first() ?? new FrontpageSetting();
 
-        // VALIDASI
         $data = $request->validate([
-            // HERO
             'hero_title'    => 'nullable|string|max:255',
             'hero_subtitle' => 'nullable|string',
-            'hero_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4048',
+            'hero_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
 
-            // WELCOME
             'welcome_title' => 'nullable|string|max:255',
             'welcome_text'  => 'nullable|string',
-            'welcome_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'welcome_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
 
-            // GUIDE
             'guide1_title'  => 'nullable|string|max:255',
             'guide1_text'   => 'nullable|string',
             'guide2_title'  => 'nullable|string|max:255',
@@ -55,17 +41,14 @@ class FrontpageController extends Controller
             'guide3_title'  => 'nullable|string|max:255',
             'guide3_text'   => 'nullable|string',
 
-            // SLIDER
             'slider'        => 'nullable|array',
 
-            // CONTACT
             'contact_address' => 'nullable|string|max:255',
             'contact_phone'   => 'nullable|string|max:255',
             'contact_email'   => 'nullable|string|max:255',
 
-            // BRANDING
-            'logo'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'favicon' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'logo'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
+            'favicon' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
         ]);
 
         /* -----------------------------------------------------------
@@ -75,19 +58,22 @@ class FrontpageController extends Controller
 
             $file = $request->file('hero_image');
 
-            // Signature validation
             if (!SafeUpload::isRealImage($file)) {
                 return back()->withErrors(['hero_image' => 'File tidak valid atau berbahaya.']);
             }
 
-            // Hapus file lama
-            if ($settings->hero_image) {
-                $old = 'uploads/frontpage/' . basename($settings->hero_image);
-                Storage::disk('public')->delete($old);
+            // hapus file lama
+            if ($settings->hero_image && Storage::disk('public')->exists($settings->hero_image)) {
+                Storage::disk('public')->delete($settings->hero_image);
             }
 
-            // Upload aman
-            $data['hero_image'] = SafeUpload::upload($file, 'uploads/frontpage');
+            $data['hero_image'] = SafeUpload::upload(
+                $file,
+                'uploads/frontpage',
+                resize: true,
+                maxWidth: 1920,
+                quality: 85
+            );
         }
 
         /* -----------------------------------------------------------
@@ -101,16 +87,21 @@ class FrontpageController extends Controller
                 return back()->withErrors(['welcome_image' => 'File tidak valid atau berbahaya.']);
             }
 
-            if ($settings->welcome_image) {
-                $old = 'uploads/frontpage/' . basename($settings->welcome_image);
-                Storage::disk('public')->delete($old);
+            if ($settings->welcome_image && Storage::disk('public')->exists($settings->welcome_image)) {
+                Storage::disk('public')->delete($settings->welcome_image);
             }
 
-            $data['welcome_image'] = SafeUpload::upload($file, 'uploads/frontpage');
+            $data['welcome_image'] = SafeUpload::upload(
+                $file,
+                'uploads/frontpage',
+                resize: true,
+                maxWidth: 1600,
+                quality: 85
+            );
         }
 
         /* -----------------------------------------------------------
-         | LOGO UPLOAD AMAN
+         | LOGO (NO RESIZE)
          ----------------------------------------------------------- */
         if ($request->hasFile('logo')) {
 
@@ -120,16 +111,19 @@ class FrontpageController extends Controller
                 return back()->withErrors(['logo' => 'Logo tidak valid atau berbahaya.']);
             }
 
-            if ($settings->logo) {
-                $old = 'uploads/frontpage/' . basename($settings->logo);
-                Storage::disk('public')->delete($old);
+            if ($settings->logo && Storage::disk('public')->exists($settings->logo)) {
+                Storage::disk('public')->delete($settings->logo);
             }
 
-            $data['logo'] = SafeUpload::upload($file, 'uploads/frontpage');
+            $data['logo'] = SafeUpload::upload(
+                $file,
+                'uploads/frontpage',
+                resize: false
+            );
         }
 
         /* -----------------------------------------------------------
-         | FAVICON UPLOAD AMAN
+         | FAVICON (NO RESIZE)
          ----------------------------------------------------------- */
         if ($request->hasFile('favicon')) {
 
@@ -139,16 +133,19 @@ class FrontpageController extends Controller
                 return back()->withErrors(['favicon' => 'Favicon tidak valid atau berbahaya.']);
             }
 
-            if ($settings->favicon) {
-                $old = 'uploads/frontpage/' . basename($settings->favicon);
-                Storage::disk('public')->delete($old);
+            if ($settings->favicon && Storage::disk('public')->exists($settings->favicon)) {
+                Storage::disk('public')->delete($settings->favicon);
             }
 
-            $data['favicon'] = SafeUpload::upload($file, 'uploads/frontpage');
+            $data['favicon'] = SafeUpload::upload(
+                $file,
+                'uploads/frontpage',
+                resize: false
+            );
         }
 
         /* -----------------------------------------------------------
-         | SLIDER (Array ID destinasi → JSON)
+         | SLIDER ID → JSON
          ----------------------------------------------------------- */
         if (isset($data['slider'])) {
             $data['slider'] = json_encode($data['slider']);

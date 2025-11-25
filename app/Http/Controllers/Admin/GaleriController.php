@@ -38,10 +38,7 @@ class GaleriController extends Controller
             'deskripsi'    => 'nullable|string',
             'is_published' => 'nullable|boolean',
 
-            // Foto
-            'file_path'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-
-            // Video
+            'file_path'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
             'video_url'    => 'nullable|url|max:500',
         ]);
 
@@ -62,13 +59,18 @@ class GaleriController extends Controller
 
             $file = $request->file('file_path');
 
-            // Signature check
             if (!SafeUpload::isRealImage($file)) {
                 return back()->withErrors(['file_path' => 'File foto tidak valid atau berbahaya.']);
             }
 
-            $path = SafeUpload::upload($file, 'uploads/galeri');
-            $galeri->file_path = $path;
+            $galeri->file_path = SafeUpload::upload(
+                $file,
+                'uploads/galeri',
+                resize: true,
+                maxWidth: 1600,
+                quality: 85
+            );
+
             $galeri->video_url = null;
         }
 
@@ -77,11 +79,8 @@ class GaleriController extends Controller
          */
         if ($request->tipe_media === 'video') {
 
-            // Sanitasi dasar: hanya YouTube atau Vimeo
             if (!preg_match('/(youtube\.com|youtu\.be|vimeo\.com)/i', $request->video_url)) {
-                return back()->withErrors([
-                    'video_url' => 'Hanya URL YouTube atau Vimeo yang diperbolehkan.'
-                ]);
+                return back()->withErrors(['video_url' => 'Hanya URL YouTube atau Vimeo yang diperbolehkan.']);
             }
 
             $galeri->file_path = null;
@@ -114,7 +113,7 @@ class GaleriController extends Controller
             'deskripsi'    => 'nullable|string',
             'is_published' => 'nullable|boolean',
 
-            'file_path'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'file_path'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
             'video_url'    => 'nullable|url|max:500',
         ]);
 
@@ -130,6 +129,7 @@ class GaleriController extends Controller
          */
         if ($request->tipe_media === 'image') {
 
+            // Upload foto baru
             if ($request->hasFile('file_path')) {
 
                 $file = $request->file('file_path');
@@ -138,20 +138,21 @@ class GaleriController extends Controller
                     return back()->withErrors(['file_path' => 'File foto tidak valid atau berbahaya.']);
                 }
 
-                // Hapus file lama
-                if ($galeri->file_path) {
-                    $oldPath = 'uploads/galeri/' . basename($galeri->file_path);
-
-                    if (Storage::disk('public')->exists($oldPath)) {
-                        Storage::disk('public')->delete($oldPath);
-                    }
+                // Hapus file lama (pakai full path)
+                if ($galeri->file_path && Storage::disk('public')->exists($galeri->file_path)) {
+                    Storage::disk('public')->delete($galeri->file_path);
                 }
 
-                $path = SafeUpload::upload($file, 'uploads/galeri');
-                $galeri->file_path = $path;
+                $galeri->file_path = SafeUpload::upload(
+                    $file,
+                    'uploads/galeri',
+                    resize: true,
+                    maxWidth: 1600,
+                    quality: 85
+                );
             }
 
-            // ganti mode → pastikan video_url kosong
+            // Ganti mode → hapus video
             $galeri->video_url = null;
         }
 
@@ -160,20 +161,13 @@ class GaleriController extends Controller
          */
         if ($request->tipe_media === 'video') {
 
-            // Hanya YouTube atau Vimeo
             if (!preg_match('/(youtube\.com|youtu\.be|vimeo\.com)/i', $request->video_url)) {
-                return back()->withErrors([
-                    'video_url' => 'Hanya URL YouTube atau Vimeo yang diperbolehkan.'
-                ]);
+                return back()->withErrors(['video_url' => 'Hanya URL YouTube atau Vimeo yang diperbolehkan.']);
             }
 
             // Hapus file foto lama
-            if ($galeri->file_path) {
-                $oldPath = 'uploads/galeri/' . basename($galeri->file_path);
-
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
+            if ($galeri->file_path && Storage::disk('public')->exists($galeri->file_path)) {
+                Storage::disk('public')->delete($galeri->file_path);
             }
 
             $galeri->file_path = null;
@@ -187,19 +181,14 @@ class GaleriController extends Controller
     }
 
     /**
-     * Hapus 1 record + file foto
+     * Hapus record + file foto
      */
     public function destroy($id)
     {
         $galeri = Galeri::findOrFail($id);
 
-        if ($galeri->file_path) {
-
-            $path = 'uploads/galeri/' . basename($galeri->file_path);
-
-            if (Storage::disk('public')->exists($path)) {
-                Storage::disk('public')->delete($path);
-            }
+        if ($galeri->file_path && Storage::disk('public')->exists($galeri->file_path)) {
+            Storage::disk('public')->delete($galeri->file_path);
         }
 
         $galeri->delete();
@@ -209,19 +198,14 @@ class GaleriController extends Controller
     }
 
     /**
-     * Hapus file foto tanpa hapus record
+     * Hapus file foto saja
      */
     public function hapusFile(Request $request, $id)
     {
         $galeri = Galeri::findOrFail($id);
 
-        if ($galeri->file_path) {
-
-            $path = 'uploads/galeri/' . basename($galeri->file_path);
-
-            if (Storage::disk('public')->exists($path)) {
-                Storage::disk('public')->delete($path);
-            }
+        if ($galeri->file_path && Storage::disk('public')->exists($galeri->file_path)) {
+            Storage::disk('public')->delete($galeri->file_path);
         }
 
         $galeri->file_path = null;

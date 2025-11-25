@@ -7,7 +7,6 @@ use App\Models\Destinasi;
 use App\Helpers\SafeUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
 
 class DestinasiController extends Controller
 {
@@ -42,14 +41,13 @@ class DestinasiController extends Controller
             'excerpt'   => 'nullable|string',
             'deskripsi' => 'nullable|string',
 
-            // batas jumlah file + per-file size (2048 KB = 2MB)
             'gambar'    => 'nullable|array|max:5',
-            'gambar.*'  => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
+            'gambar.*'  => 'nullable|file|mimes:jpg,jpeg,png,webp|max:3072',
+
             'unggulan'  => 'nullable|boolean',
         ]);
 
-        // tambahan safety: pastikan jumlah file <= 5 (double-check)
-        if ($request->hasFile('gambar') && !SafeUpload::validateMaxFiles($request->file('gambar'))) {
+        if ($request->hasFile('gambar') && !SafeUpload::validateMaxFiles($request->file('gambar'), 5)) {
             return back()->withErrors(['gambar' => 'Maksimal 5 file.'])->withInput();
         }
 
@@ -62,27 +60,24 @@ class DestinasiController extends Controller
         $dest->deskripsi = $request->deskripsi;
         $dest->unggulan = $request->boolean('unggulan');
 
-        $gambarArray = [];
+        $gambarArr = [];
 
-        // UPLOAD GAMBAR (MULTIPLE) - aman
         if ($request->hasFile('gambar')) {
             foreach ($request->file('gambar') as $file) {
 
-                // extra safety check
                 if (!SafeUpload::isRealImage($file)) {
                     return back()->withErrors(['gambar' => 'Ada file gambar yang tidak valid atau berbahaya.'])->withInput();
                 }
 
-                $path = SafeUpload::upload($file, 'uploads/destinasi'); // returns path relative to disk 'public'
-                $gambarArray[] = $path;
+                $gambarArr[] = SafeUpload::upload($file, 'uploads/destinasi');
             }
         }
 
-        $dest->gambar = $gambarArray;
+        $dest->gambar = $gambarArr;
         $dest->save();
 
         return redirect()->route('admin.web.destinasi.index')
-                         ->with('success', 'Destinasi berhasil ditambahkan.');
+            ->with('success', 'Destinasi berhasil ditambahkan.');
     }
 
     /**
@@ -109,17 +104,14 @@ class DestinasiController extends Controller
             'deskripsi' => 'nullable|string',
 
             'gambar'    => 'nullable|array|max:5',
-            'gambar.*'  => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
+            'gambar.*'  => 'nullable|file|mimes:jpg,jpeg,png,webp|max:3072',
+
             'unggulan'  => 'nullable|boolean',
         ]);
 
-        // double-check jumlah file
-        if ($request->hasFile('gambar') && !SafeUpload::validateMaxFiles($request->file('gambar'))) {
-            return back()->withErrors(['gambar' => 'Maksimal 5 file.'])->withInput();
-        }
-
         $dest = Destinasi::findOrFail($id);
 
+        // update field biasa
         $dest->nama = $request->nama;
         $dest->kategori = $request->kategori;
         $dest->lokasi = $request->lokasi;
@@ -128,38 +120,39 @@ class DestinasiController extends Controller
         $dest->deskripsi = $request->deskripsi;
         $dest->unggulan = $request->boolean('unggulan');
 
-        $gambarBaru = $dest->gambar ?? [];
+        $existing = $dest->gambar ?? [];
 
-        // UPLOAD GAMBAR BARU (ditambahkan ke array yang ada)
-        if ($request->hasFile('gambar')) {
-            foreach ($request->file('gambar') as $file) {
-
-                if (!SafeUpload::isRealImage($file)) {
-                    return back()->withErrors(['gambar' => 'Ada file gambar yang tidak valid atau berbahaya.'])->withInput();
-                }
-
-                $path = SafeUpload::upload($file, 'uploads/destinasi');
-                $gambarBaru[] = $path;
-            }
-
-            // Pastikan total tidak melebihi 5 setelah penambahan
-            if (count($gambarBaru) > 5) {
-                // rollback uploaded new files for cleanliness
-                foreach ($gambarBaru as $p) {
-                    // hapus semua yang baru di-upload (cek di disk public)
-                    if (Storage::disk('public')->exists($p)) {
-                        Storage::disk('public')->delete($p);
-                    }
-                }
-                return back()->withErrors(['gambar' => 'Total gambar tidak boleh lebih dari 5.'])->withInput();
-            }
+        // jika tidak upload gambar baru, langsung save
+        if (!$request->hasFile('gambar')) {
+            $dest->save();
+            return redirect()->route('admin.web.destinasi.index')
+                ->with('success', 'Destinasi berhasil diperbarui.');
         }
 
-        $dest->gambar = $gambarBaru;
+        // cek total sebelum upload
+        $incoming = $request->file('gambar');
+        $total = count($existing) + count($incoming);
+
+        if ($total > 5) {
+            return back()->withErrors(['gambar' => 'Total gambar tidak boleh lebih dari 5.'])->withInput();
+        }
+
+        // upload gambar baru
+        foreach ($incoming as $file) {
+
+            if (!SafeUpload::isRealImage($file)) {
+                return back()->withErrors(['gambar' => 'Ada file gambar tidak valid atau berbahaya.'])->withInput();
+            }
+
+            $existing[] = SafeUpload::upload($file, 'uploads/destinasi');
+        }
+
+        // simpan array final
+        $dest->gambar = $existing;
         $dest->save();
 
         return redirect()->route('admin.web.destinasi.index')
-                         ->with('success', 'Destinasi berhasil diperbarui.');
+            ->with('success', 'Destinasi berhasil diperbarui.');
     }
 
     /**
@@ -169,7 +162,6 @@ class DestinasiController extends Controller
     {
         $dest = Destinasi::findOrFail($id);
 
-        // Hapus semua gambar dari storage/public
         if ($dest->gambar) {
             foreach ($dest->gambar as $img) {
                 if (Storage::disk('public')->exists($img)) {
@@ -181,11 +173,11 @@ class DestinasiController extends Controller
         $dest->delete();
 
         return redirect()->route('admin.web.destinasi.index')
-                         ->with('success', 'Destinasi berhasil dihapus.');
+            ->with('success', 'Destinasi berhasil dihapus.');
     }
 
     /**
-     * HAPUS 1 GAMBAR (AJAX atau form)
+     * HAPUS 1 GAMBAR
      */
     public function hapusGambar(Request $request, $id)
     {
@@ -194,27 +186,18 @@ class DestinasiController extends Controller
         ]);
 
         $dest = Destinasi::findOrFail($id);
+        $gambar = $request->gambar;
 
-        $gambar = $request->input('gambar');
+        if (in_array($gambar, $dest->gambar ?? [])) {
 
-        // Pastikan gambar ada di array
-        $current = $dest->gambar ?? [];
-        if (!in_array($gambar, $current)) {
-            return back()->withErrors(['gambar' => 'Gambar tidak ditemukan pada destinasi ini.']);
+            if (Storage::disk('public')->exists($gambar)) {
+                Storage::disk('public')->delete($gambar);
+            }
+
+            $updated = array_filter($dest->gambar, fn($img) => $img !== $gambar);
+            $dest->gambar = array_values($updated);
+            $dest->save();
         }
-
-        // hapus file dari storage/public jika ada
-        if (Storage::disk('public')->exists($gambar)) {
-            Storage::disk('public')->delete($gambar);
-        }
-
-        // update array JSON (hapus elemen)
-        $updated = array_filter($current, function ($img) use ($gambar) {
-            return $img !== $gambar;
-        });
-
-        $dest->gambar = array_values($updated); // reset index array
-        $dest->save();
 
         return back()->with('success', 'Gambar berhasil dihapus.');
     }

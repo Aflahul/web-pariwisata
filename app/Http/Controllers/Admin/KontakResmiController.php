@@ -13,23 +13,19 @@ class KontakResmiController extends Controller
      */
     public function edit()
     {
-        // Pastikan hanya 1 record
-        $kontak = KontakResmi::first();
-
-        if (!$kontak) {
-            $kontak = KontakResmi::create([
-                'alamat' => null,
-                'telepon' => null,
-                'whatsapp' => null,
-                'email' => null,
-                'jam_operasional' => null,
-                'maps_url' => null,
-                'facebook' => null,
-                'instagram' => null,
-                'youtube' => null,
-                'tiktok' => null,
-            ]);
-        }
+        // Selalu hanya 1 record
+        $kontak = KontakResmi::firstOrCreate([], [
+            'alamat'          => null,
+            'telepon'         => null,
+            'whatsapp'        => null,
+            'email'           => null,
+            'jam_operasional' => null,
+            'maps_url'        => null,
+            'facebook'        => null,
+            'instagram'       => null,
+            'youtube'         => null,
+            'tiktok'          => null,
+        ]);
 
         return view('admin.web.kontak.edit', compact('kontak'));
     }
@@ -54,10 +50,7 @@ class KontakResmiController extends Controller
         ]);
 
         $kontak = KontakResmi::firstOrFail();
-
-        // Isi hanya kolom yang diizinkan
-        $kontak->fill($validated);
-        $kontak->save();
+        $kontak->fill($validated)->save();
 
         return redirect()
             ->route('admin.web.kontak.edit')

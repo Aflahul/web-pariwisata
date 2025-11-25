@@ -29,41 +29,41 @@ class InformasiDaerahController extends Controller
             'subtitle'  => 'nullable|string|max:255',
             'content'   => 'required|string',
 
-            // file tunggal max 4MB
-            'image'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4048',
+            // 4MB
+            'image'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
         ]);
 
         $info = InformasiDaerah::first() ?? new InformasiDaerah;
 
-        // update teks
-        $info->title = $request->title;
+        // Update text field
+        $info->title    = $request->title;
         $info->subtitle = $request->subtitle;
-        $info->content = $request->content;
+        $info->content  = $request->content;
 
         /**
-         * 1. HANDLE UPLOAD GAMBAR AMAN
+         * HANDLE UPLOAD GAMBAR AMAN
          */
         if ($request->hasFile('image')) {
 
             $file = $request->file('image');
 
-            // Validasi signature file (anti fake image)
             if (!SafeUpload::isRealImage($file)) {
                 return back()->withErrors(['image' => 'File gambar tidak valid atau berbahaya.']);
             }
 
-            // Hapus gambar lama jika ada
-            if ($info->image) {
-                $oldPath = 'uploads/informasi-daerah/' . basename($info->image);
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
+            // Hapus gambar lama (pakai path asli)
+            if ($info->image && Storage::disk('public')->exists($info->image)) {
+                Storage::disk('public')->delete($info->image);
             }
 
-            // Upload baru dengan SafeUpload
-            $path = SafeUpload::upload($file, 'uploads/informasi-daerah');
-
-            $info->image = $path;
+            // Upload dengan SafeUpload (resize aktif)
+            $info->image = SafeUpload::upload(
+                $file,
+                'uploads/informasi-daerah',
+                resize: true,
+                maxWidth: 1600,
+                quality: 85
+            );
         }
 
         $info->save();

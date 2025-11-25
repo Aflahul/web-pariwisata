@@ -47,17 +47,17 @@ class AkomodasiController extends Controller
             'fasilitas.*' => 'nullable|string|max:255',
 
             'images'      => 'nullable|array|max:5',
-            'images.*'    => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
+            'images.*'    => 'nullable|file|mimes:jpg,jpeg,png,webp|max:3072',
 
             'is_published'=> 'nullable|boolean',
         ]);
 
-        if ($request->hasFile('images') && !SafeUpload::validateMaxFiles($request->file('images'))) {
+        // validasi jumlah file
+        if ($request->hasFile('images') && !SafeUpload::validateMaxFiles($request->file('images'), 5)) {
             return back()->withErrors(['images' => 'Maksimal 5 file.'])->withInput();
         }
 
         $akom = new Akomodasi();
-
         $akom->nama        = $request->nama;
         $akom->tipe        = $request->tipe;
         $akom->alamat      = $request->alamat;
@@ -75,7 +75,7 @@ class AkomodasiController extends Controller
             foreach ($request->file('images') as $file) {
 
                 if (!SafeUpload::isRealImage($file)) {
-                    return back()->withErrors(['images' => 'Ada file yang tidak valid atau berbahaya.'])->withInput();
+                    return back()->withErrors(['images' => 'Ada file tidak valid atau berbahaya.'])->withInput();
                 }
 
                 $files[] = SafeUpload::upload($file, 'uploads/akomodasi');
@@ -118,17 +118,14 @@ class AkomodasiController extends Controller
             'fasilitas.*' => 'nullable|string|max:255',
 
             'images'      => 'nullable|array|max:5',
-            'images.*'    => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
+            'images.*'    => 'nullable|file|mimes:jpg,jpeg,png,webp|max:3072',
 
             'is_published'=> 'nullable|boolean',
         ]);
 
-        if ($request->hasFile('images') && !SafeUpload::validateMaxFiles($request->file('images'))) {
-            return back()->withErrors(['images' => 'Maksimal 5 file.'])->withInput();
-        }
-
         $akom = Akomodasi::findOrFail($id);
 
+        // Update field biasa
         $akom->nama        = $request->nama;
         $akom->tipe        = $request->tipe;
         $akom->alamat      = $request->alamat;
@@ -140,42 +137,42 @@ class AkomodasiController extends Controller
         $akom->fasilitas   = $request->fasilitas;
         $akom->is_published = $request->boolean('is_published');
 
-        $files = $akom->images ?? [];
+        // ambil gambar lama
+        $existing = $akom->images ?? [];
 
-        if ($request->hasFile('images')) {
-
-            // upload baru
-            foreach ($request->file('images') as $file) {
-
-                if (!SafeUpload::isRealImage($file)) {
-                    return back()->withErrors(['images' => 'Ada file tidak valid atau berbahaya.'])->withInput();
-                }
-
-                $files[] = SafeUpload::upload($file, 'uploads/akomodasi');
-            }
-
-            if (count($files) > 5) {
-
-                // rollback file baru
-                foreach ($files as $path) {
-                    if (Storage::disk('public')->exists($path)) {
-                        Storage::disk('public')->delete($path);
-                    }
-                }
-
-                return back()->withErrors(['images' => 'Total gambar tidak boleh lebih dari 5.'])->withInput();
-            }
+        // jika tidak upload gambar baru, jangan sentuh images
+        if (!$request->hasFile('images')) {
+            $akom->save();
+            return redirect()->route('admin.web.akomodasi.index')
+                ->with('success', 'Akomodasi berhasil diperbarui.');
         }
 
-        $akom->images = $files;
+        // total file lama + baru
+        $incoming = $request->file('images');
+        $total = count($existing) + count($incoming);
+
+        if ($total > 5) {
+            return back()->withErrors(['images' => 'Total gambar tidak boleh lebih dari 5.'])->withInput();
+        }
+
+        // upload file baru
+        foreach ($incoming as $file) {
+
+            if (!SafeUpload::isRealImage($file)) {
+                return back()->withErrors(['images' => 'Ada file tidak valid atau berbahaya.'])->withInput();
+            }
+
+            $existing[] = SafeUpload::upload($file, 'uploads/akomodasi');
+        }
+
+        // simpan array final
+        $akom->images = $existing;
         $akom->save();
 
         return redirect()->route('admin.web.akomodasi.index')
             ->with('success', 'Akomodasi berhasil diperbarui.');
     }
 
-
-    //fungsi edit masih bermasalah di saat klik simpan data malah terhapus
     /**
      * DELETE
      */
