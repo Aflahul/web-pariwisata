@@ -3,9 +3,10 @@
         <div class="row g-5">
 
             {{-- LOGO --}}
-            <div class="col-md-6 col-lg-3 text-center text-lg-start">
+            <div class="col-md-6 col-lg-3 text-center flex text-lg-start">
                 @if (isset($fp) && $fp->logo)
-                    <img src="{{ image_path($fp->logo) }}" alt="Logo" style="height: 70px; width:auto;">
+                    <img src="{{ image_path($fp->logo) }}" alt="Logo Kab" style="height: 80px; width:auto;">
+                    <img src="{{ image_path($fp->favicon) }}" alt="Logo Dinas" style="height: 90px; width:auto;">
                 @endif
             </div>
 

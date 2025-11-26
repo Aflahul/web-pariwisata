@@ -4,132 +4,109 @@ namespace App\Helpers;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Encoders\JpegEncoder;
+use Intervention\Image\Encoders\PngEncoder;
+use Intervention\Image\Encoders\WebpEncoder;
 
 class SafeUpload
 {
-    /**
-     * Allowed image MIME types
-     */
     protected static array $allowedImageMimes = [
         'image/jpeg',
         'image/png',
         'image/webp',
     ];
 
-    /**
-     * Max file size in bytes (2 MB)
-     */
-    protected const MAX_FILE_BYTES = 2097152;
+    protected const MAX_FILE_BYTES = 3145728; // 3 MB default
 
-    /**
-     * Periksa apakah file benar-benar gambar (MIME + signature)
-     */
     public static function isRealImage(UploadedFile $file): bool
     {
-        // MIME dari PHP
-        $mime = $file->getMimeType();
-        if (!in_array($mime, self::$allowedImageMimes)) {
+        if (!in_array($file->getMimeType(), self::$allowedImageMimes)) {
             return false;
         }
 
-        // ukuran tidak boleh melebihi limit (double-check)
-        if ($file->getSize() > self::MAX_FILE_BYTES) {
+        if ($file->getSize() > (5 * 1024 * 1024)) {
             return false;
         }
 
-        // signature binary (getimagesize) -> false jika bukan image valid
-        $check = @getimagesize($file->getRealPath());
-        return $check !== false;
+        return @getimagesize($file->getRealPath()) !== false;
     }
 
-    /**
-     * Validasi video (mp4/webm) jika diperlukan
-     */
-    public static function isRealVideo(UploadedFile $file): bool
-    {
-        $allowed = ['video/mp4', 'video/webm'];
-        return in_array($file->getMimeType(), $allowed) && $file->getSize() <= (10 * 1024 * 1024); // contoh 10MB cap
-    }
-
-    /**
-     * Validasi jumlah file maksimal
-     */
     public static function validateMaxFiles($files, int $max = 5): bool
     {
         if (!is_array($files)) return true;
         return count($files) <= $max;
     }
 
-    /**
-     * Generate nama file yang konsisten tanpa menyimpan file.
-     * Berguna untuk prediksi path sebelum menyimpan (rollback, dsb).
-     */
-    public static function generatedPath(UploadedFile $file, string $folder, ?string $prefix = 'file_'): string
-    {
-        $ext = strtolower($file->getClientOriginalExtension());
-        $safeName = uniqid($prefix) . '_' . time() . '.' . $ext;
-        return trim($folder, '/') . '/' . $safeName;
-    }
+    public static function upload(
+        UploadedFile $file,
+        string $folder,
+        bool $resize = true,
+        bool $optimize = true,
+        bool $isHero = false,
+        int $maxWidth = 1600,
+        int $quality = 85
+    ): string {
 
-    /**
-     * Upload aman:
-     *
-     * @param UploadedFile $file
-     * @param string $folder relative to storage/app/public
-     * @param bool $resize apakah mau resize (default true)
-     * @param int $maxWidth max width untuk resize (default 1600)
-     * @param int $quality jpeg/webp quality (1-100) default 85
-     * @return string path relatif di disk public (contoh: uploads/destinasi/...)
-     *
-     * Contoh:
-     * SafeUpload::upload($file, 'uploads/destinasi', resize:true, maxWidth:1600, quality:85)
-     */
-    public static function upload(UploadedFile $file, string $folder, bool $resize = true, int $maxWidth = 1600, int $quality = 85): string
-    {
-        // validasi awal
-        if ($file->getSize() > self::MAX_FILE_BYTES) {
-            throw new \RuntimeException('Ukuran file melebihi batas 2MB.');
+        // Hero image boleh sampai 4MB
+        $maxBytes = $isHero ? (4 * 1024 * 1024) : self::MAX_FILE_BYTES;
+
+        if ($file->getSize() > $maxBytes) {
+            throw new \RuntimeException('Ukuran file melebihi batas yang diizinkan.');
         }
 
         if (!self::isRealImage($file)) {
-            throw new \RuntimeException('File bukan gambar valid atau berpotensi berbahaya.');
+            throw new \RuntimeException('File bukan gambar valid.');
         }
 
         $ext = strtolower($file->getClientOriginalExtension());
-        $ext = in_array($ext, ['jpg','jpeg','png','webp']) ? $ext : 'jpg';
+        if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
+            $ext = 'jpg';
+        }
 
-        // Nama file aman
         $safeName = uniqid('img_') . '_' . time() . '.' . $ext;
         $relativePath = trim($folder, '/') . '/' . $safeName;
 
-        // Pastikan folder ada di disk public
         $disk = Storage::disk('public');
+        $manager = new ImageManager(new GdDriver());
 
         try {
-            // Gunakan Intervention Image untuk optimasi
-            // Create image instance
-            $img = Image::make($file->getRealPath());
+            // Skip full processing untuk hero/logo/favicon
+            if (!$resize && !$optimize) {
+                $disk->put($relativePath, file_get_contents($file->getRealPath()));
+                return $relativePath;
+            }
 
-            // Only resize if requested and image width is larger than maxWidth
+            $img = $manager->read($file->getRealPath());
+
             if ($resize && $img->width() > $maxWidth) {
-                $img->resize($maxWidth, null, function ($constraint) {
+                $img = $img->resize($maxWidth, null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
             }
 
-            // Convert to appropriate format & encode with quality
-            // For PNG, quality is 0-9 in Intervention, but encode() accepts quality as int; it will be handled internally.
-            $encoded = $img->encode($ext, $quality)->__toString();
+            // Pilih encoder sesuai extension
+            switch ($ext) {
+                case 'png':
+                    $encoded = $img->encode(new PngEncoder());
+                    break;
 
-            // Simpan ke disk public
+                case 'webp':
+                    $encoded = $img->encode(new WebpEncoder(quality: $quality));
+                    break;
+
+                default: // jpg/jpeg
+                    $encoded = $img->encode(new JpegEncoder(quality: $quality));
+                    break;
+            }
+
             $disk->put($relativePath, $encoded);
 
-            // Return path relatif (untuk dipakai asset('storage/' . $path))
             return $relativePath;
+
         } catch (\Exception $e) {
-            // Jika gagal, pastikan tidak ada file setengah jalan
             if ($disk->exists($relativePath)) {
                 $disk->delete($relativePath);
             }
@@ -137,9 +114,6 @@ class SafeUpload
         }
     }
 
-    /**
-     * Hapus file aman dari storage/public
-     */
     public static function delete(string $relativePath): bool
     {
         return Storage::disk('public')->exists($relativePath)

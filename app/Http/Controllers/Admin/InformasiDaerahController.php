@@ -10,18 +10,12 @@ use App\Helpers\SafeUpload;
 
 class InformasiDaerahController extends Controller
 {
-    /**
-     * Halaman edit informasi daerah
-     */
     public function edit()
     {
         $info = InformasiDaerah::first() ?? new InformasiDaerah;
         return view('admin.web.informasi-daerah.edit', compact('info'));
     }
 
-    /**
-     * Update informasi daerah
-     */
     public function update(Request $request)
     {
         $request->validate([
@@ -29,20 +23,18 @@ class InformasiDaerahController extends Controller
             'subtitle'  => 'nullable|string|max:255',
             'content'   => 'required|string',
 
-            // 4MB
+            // 4 MB
             'image'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
         ]);
 
         $info = InformasiDaerah::first() ?? new InformasiDaerah;
 
-        // Update text field
+        // Update text
         $info->title    = $request->title;
         $info->subtitle = $request->subtitle;
         $info->content  = $request->content;
 
-        /**
-         * HANDLE UPLOAD GAMBAR AMAN
-         */
+        // Upload gambar
         if ($request->hasFile('image')) {
 
             $file = $request->file('image');
@@ -51,16 +43,17 @@ class InformasiDaerahController extends Controller
                 return back()->withErrors(['image' => 'File gambar tidak valid atau berbahaya.']);
             }
 
-            // Hapus gambar lama (pakai path asli)
+            // Hapus gambar lama
             if ($info->image && Storage::disk('public')->exists($info->image)) {
                 Storage::disk('public')->delete($info->image);
             }
 
-            // Upload dengan SafeUpload (resize aktif)
+            // Upload baru (resize ON, optimize ON)
             $info->image = SafeUpload::upload(
-                $file,
-                'uploads/informasi-daerah',
+                file: $file,
+                folder: 'uploads/informasi-daerah',
                 resize: true,
+                optimize: true,
                 maxWidth: 1600,
                 quality: 85
             );

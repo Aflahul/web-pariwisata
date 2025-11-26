@@ -34,12 +34,12 @@
                 {{-- NAV TABS --}}
                 <ul class="nav nav-tabs" id="frontpageTabs" role="tablist">
                     <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tabHero">Hero</a></li>
-                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabWelcome">Welcome</a></li>
+                    {{-- <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabWelcome">Welcome</a></li> --}}
                     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabGuide">Panduan Wisata</a></li>
                     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabSlider">Slider Destinasi</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabFooter">Kontak Footer</a></li>
-                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabLogo">Logo & Favicon</a></li>
+                    {{-- <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabFooter">Kontak Footer</a></li> --}}
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabLogo">Logo</a></li>
                 </ul>
 
                 <div class="tab-content p-4">
@@ -70,7 +70,7 @@
                         </div>
                     </div>
 
-                    {{-- TAB WELCOME --}}
+                    {{-- TAB WELCOME
                     <div class="tab-pane fade" id="tabWelcome">
                         <h5 class="mb-3">Welcome Section</h5>
 
@@ -94,7 +94,7 @@
                                     style="max-height: 200px;">
                             @endif
                         </div>
-                    </div>
+                    </div> --}}
 
                     {{-- TAB GUIDE --}}
                     <div class="tab-pane fade" id="tabGuide">
@@ -134,8 +134,7 @@
 
                         @foreach ($destinasi as $d)
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" name="slider[]"
-                                    value="{{ $d->id }}"
+                                <input class="form-check-input" type="checkbox" name="slider[]" value="{{ $d->id }}"
                                     {{ in_array($d->id, old('slider', $settings->slider ?? [])) ? 'checked' : '' }}>
 
                                 <label class="form-check-label">
@@ -150,7 +149,7 @@
 
 
                     {{-- TAB FOOTER --}}
-                    <div class="tab-pane fade" id="tabFooter">
+                    {{-- <div class="tab-pane fade" id="tabFooter">
                         <h5 class="mb-3">Kontak Footer</h5>
 
                         <div class="mb-3">
@@ -170,14 +169,14 @@
                             <input name="contact_email" class="form-control"
                                 value="{{ old('contact_email', $settings->contact_email ?? '') }}">
                         </div>
-                    </div>
+                    </div> --}}
 
                     {{-- TAB LOGO --}}
                     <div class="tab-pane fade" id="tabLogo">
                         <h5 class="mb-3">Logo </h5>
 
                         <div class="mb-3">
-                            <label class="form-label">Logo Website</label>
+                            <label class="form-label">Logo Daerah</label>
                             <input type="file" name="logo" class="form-control">
 
                             @if (!empty($settings->logo))
@@ -186,15 +185,15 @@
                             @endif
                         </div>
 
-                        {{-- <div class="mb-3">
-                            <label class="form-label">Logo Icon</label>
+                        <div class="mb-3">
+                            <label class="form-label">Logo Dinas</label>
                             <input type="file" name="favicon" class="form-control">
 
                             @if (!empty($settings->favicon))
                                 <img src="{{ asset('storage/' . $settings->favicon) }}" class="img-fluid mt-3 rounded"
                                     style="max-height: 80px;">
                             @endif
-                        </div> --}}
+                        </div>
                     </div>
 
                 </div>

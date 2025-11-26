@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class GaleriController extends Controller
 {
     /**
-     * List galeri
+     * LIST GALERI
      */
     public function index()
     {
@@ -20,7 +20,7 @@ class GaleriController extends Controller
     }
 
     /**
-     * Form tambah
+     * FORM TAMBAH
      */
     public function create()
     {
@@ -28,7 +28,7 @@ class GaleriController extends Controller
     }
 
     /**
-     * Simpan galeri baru
+     * SIMPAN GALERI BARU
      */
     public function store(Request $request)
     {
@@ -38,7 +38,7 @@ class GaleriController extends Controller
             'deskripsi'    => 'nullable|string',
             'is_published' => 'nullable|boolean',
 
-            'file_path'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
+            'file_path'    => 'nullable|file|mimes:jpg,jpeg,png,webp|max:3072',
             'video_url'    => 'nullable|url|max:500',
         ]);
 
@@ -64,9 +64,10 @@ class GaleriController extends Controller
             }
 
             $galeri->file_path = SafeUpload::upload(
-                $file,
-                'uploads/galeri',
+                file: $file,
+                folder: 'uploads/galeri',
                 resize: true,
+                optimize: true,
                 maxWidth: 1600,
                 quality: 85
             );
@@ -94,7 +95,7 @@ class GaleriController extends Controller
     }
 
     /**
-     * Form edit
+     * FORM EDIT
      */
     public function edit($id)
     {
@@ -103,7 +104,7 @@ class GaleriController extends Controller
     }
 
     /**
-     * Update galeri
+     * UPDATE GALERI
      */
     public function update(Request $request, $id)
     {
@@ -113,7 +114,7 @@ class GaleriController extends Controller
             'deskripsi'    => 'nullable|string',
             'is_published' => 'nullable|boolean',
 
-            'file_path'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
+            'file_path'    => 'nullable|file|mimes:jpg,jpeg,png,webp|max:3072',
             'video_url'    => 'nullable|url|max:500',
         ]);
 
@@ -129,7 +130,7 @@ class GaleriController extends Controller
          */
         if ($request->tipe_media === 'image') {
 
-            // Upload foto baru
+            // Upload foto baru (opsional)
             if ($request->hasFile('file_path')) {
 
                 $file = $request->file('file_path');
@@ -138,21 +139,22 @@ class GaleriController extends Controller
                     return back()->withErrors(['file_path' => 'File foto tidak valid atau berbahaya.']);
                 }
 
-                // Hapus file lama (pakai full path)
+                // Hapus file lama jika ada
                 if ($galeri->file_path && Storage::disk('public')->exists($galeri->file_path)) {
                     Storage::disk('public')->delete($galeri->file_path);
                 }
 
                 $galeri->file_path = SafeUpload::upload(
-                    $file,
-                    'uploads/galeri',
+                    file: $file,
+                    folder: 'uploads/galeri',
                     resize: true,
+                    optimize: true,
                     maxWidth: 1600,
                     quality: 85
                 );
             }
 
-            // Ganti mode → hapus video
+            // Ganti mode → setel menjadi foto
             $galeri->video_url = null;
         }
 
@@ -165,7 +167,7 @@ class GaleriController extends Controller
                 return back()->withErrors(['video_url' => 'Hanya URL YouTube atau Vimeo yang diperbolehkan.']);
             }
 
-            // Hapus file foto lama
+            // Hapus file foto lama bila ada
             if ($galeri->file_path && Storage::disk('public')->exists($galeri->file_path)) {
                 Storage::disk('public')->delete($galeri->file_path);
             }
@@ -181,7 +183,7 @@ class GaleriController extends Controller
     }
 
     /**
-     * Hapus record + file foto
+     * HAPUS RECORD + FILE
      */
     public function destroy($id)
     {
@@ -198,7 +200,7 @@ class GaleriController extends Controller
     }
 
     /**
-     * Hapus file foto saja
+     * HAPUS FILE FOTO SAJA
      */
     public function hapusFile(Request $request, $id)
     {

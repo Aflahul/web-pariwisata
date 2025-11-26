@@ -66,10 +66,18 @@ class DestinasiController extends Controller
             foreach ($request->file('gambar') as $file) {
 
                 if (!SafeUpload::isRealImage($file)) {
-                    return back()->withErrors(['gambar' => 'Ada file gambar yang tidak valid atau berbahaya.'])->withInput();
+                    return back()->withErrors(['gambar' => 'Ada file gambar tidak valid atau berbahaya.'])->withInput();
                 }
 
-                $gambarArr[] = SafeUpload::upload($file, 'uploads/destinasi');
+                $gambarArr[] = SafeUpload::upload(
+                    file: $file,
+                    folder: 'uploads/destinasi',
+                    resize: true,
+                    optimize: true,
+                    isHero: false,
+                    maxWidth: 1600,
+                    quality: 85
+                );
             }
         }
 
@@ -111,7 +119,7 @@ class DestinasiController extends Controller
 
         $dest = Destinasi::findOrFail($id);
 
-        // update field biasa
+        // Update field biasa
         $dest->nama = $request->nama;
         $dest->kategori = $request->kategori;
         $dest->lokasi = $request->lokasi;
@@ -122,14 +130,13 @@ class DestinasiController extends Controller
 
         $existing = $dest->gambar ?? [];
 
-        // jika tidak upload gambar baru, langsung save
+        // Jika tidak upload gambar baru
         if (!$request->hasFile('gambar')) {
             $dest->save();
             return redirect()->route('admin.web.destinasi.index')
                 ->with('success', 'Destinasi berhasil diperbarui.');
         }
 
-        // cek total sebelum upload
         $incoming = $request->file('gambar');
         $total = count($existing) + count($incoming);
 
@@ -137,17 +144,24 @@ class DestinasiController extends Controller
             return back()->withErrors(['gambar' => 'Total gambar tidak boleh lebih dari 5.'])->withInput();
         }
 
-        // upload gambar baru
+        // Upload gambar baru
         foreach ($incoming as $file) {
 
             if (!SafeUpload::isRealImage($file)) {
                 return back()->withErrors(['gambar' => 'Ada file gambar tidak valid atau berbahaya.'])->withInput();
             }
 
-            $existing[] = SafeUpload::upload($file, 'uploads/destinasi');
+            $existing[] = SafeUpload::upload(
+                file: $file,
+                folder: 'uploads/destinasi',
+                resize: true,
+                optimize: true,
+                isHero: false,
+                maxWidth: 1600,
+                quality: 85
+            );
         }
 
-        // simpan array final
         $dest->gambar = $existing;
         $dest->save();
 

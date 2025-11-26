@@ -3,7 +3,8 @@
 
         {{-- LOGO --}}
         @if (isset($fp) && $fp->logo)
-            <img src="{{ image_path($fp->logo) }}" alt="Logo" style="height: 50px; width:auto;">
+            <img src="{{ image_path($fp->logo) }}" alt="Logo Kab" style="height: 50px; width:auto;">
+            <img src="{{ image_path($fp->favicon) }}" alt="Logo Dinas" style="height: 50px; width:auto;">
         @endif
 
         {{-- TEKS DI SAMPING LOGO --}}
