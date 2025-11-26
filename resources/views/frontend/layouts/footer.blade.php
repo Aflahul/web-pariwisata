@@ -32,9 +32,15 @@
                     @endif
 
                     @if ($kontak->telepon)
-                        <p class="text-white mb-0">
+                        <p class="text-white mb-2">
                             <i class="fa fa-phone me-2"></i>
                             {{ $kontak->telepon }}
+                        </p>
+                    @endif
+                    @if ($kontak->jam_operasional)
+                        <p class="text-white mb-0">
+                            <i class="fa fa-clock me-2"></i>
+                            {{ $kontak->jam_operasional}}
                         </p>
                     @endif
                 @endif
@@ -47,13 +53,13 @@
                 @if ($kontak)
                     @if ($kontak->facebook)
                         <a href="{{ $kontak->facebook }}" class="btn mx-1 text-white">
-                            <i class="fab fa-facebook"></i>
+                            <i class="fab fa-facebook"></i> Dinas Pariwisata Kab Supiori
                         </a>
                     @endif
 
                     @if ($kontak->instagram)
                         <a href="{{ $kontak->instagram }}" class="btn mx-1 text-white">
-                            <i class="fab fa-instagram"></i>
+                            <i class="fab fa-instagram"></i> Dinas Pariwisata Kab Supiori
                         </a>
                     @endif
 
