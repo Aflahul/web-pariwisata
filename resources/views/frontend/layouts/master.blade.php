@@ -7,10 +7,13 @@
 
     <title>@yield('title', 'Pariwisata Supiori')</title>
     <meta name="description" content="@yield('meta_description', 'Informasi wisata Supiori')">
+    <link rel="icon" type="image/png" href="{{ asset('frontend/img/defaultlogo.png') }}">
+
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 
     <!-- Icons -->
