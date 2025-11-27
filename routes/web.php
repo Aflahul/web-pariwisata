@@ -29,6 +29,8 @@ Route::get('/akomodasi/{slug}', [AkomodasiController::class, 'show'])
     ->name('front.akomodasi.show');
 Route::get('/diving', [DivingController::class, 'index'])
     ->name('front.diving.index');
+Route::get('/tentang', [InfoController::class, 'index'])
+    ->name('front.info.index');
 Route::get('/diving/{slug}', [DivingController::class, 'show'])
     ->name('front.diving.show');
 Route::get('/galeri', [GaleriController::class, 'index'])
