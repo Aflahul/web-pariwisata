@@ -14,8 +14,7 @@ class UserController extends Controller
      */
     private function mustSuperAdmin()
     {
-        $u = auth()->user();
-
+        $u = auth()->User();
         if (!$u || $u->role !== 'super_admin') {
             abort(403, 'Akses ditolak. Hanya Super Admin.');
         }
@@ -29,8 +28,8 @@ class UserController extends Controller
         $this->mustSuperAdmin();
 
         $users = User::orderBy('role')
-                     ->orderBy('name')
-                     ->get();
+            ->orderBy('name')
+            ->get();
 
         return view('admin.users.index', compact('users'));
     }
