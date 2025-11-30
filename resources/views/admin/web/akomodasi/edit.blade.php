@@ -146,16 +146,16 @@
                                                     method="POST" class="position-absolute top-0 end-0 m-1">
                                                     @csrf
                                                     @method('DELETE')
+                                                
+                                                        <input type="hidden" name="gambar" value="{{ $img }}">
 
-                                                    <input type="hidden" name="gambar" value="{{ $img }}">
+                                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Hapus gambar ini?')"
+                                                            aria-label="Hapus gambar">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
 
-                                                    <button type="submit" class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Hapus gambar ini?')"
-                                                        aria-label="Hapus gambar">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-
-                                                </form>
+                                                    </form>
 
                                             </div>
                                         </div>

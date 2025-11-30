@@ -63,7 +63,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('/web-management/destinasi', DestinasiController::class, [
             'as' => 'admin.web'
         ]);
-        Route::delete('/web-management/destinasi/{id}/hapus-gambar',
+        Route::delete('/web-management/destinasi/gambar/{id}',
             [DestinasiController::class, 'hapusGambar'])
             ->name('admin.web.destinasi.hapus-gambar');
 
@@ -73,7 +73,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('/web-management/akomodasi', AkomodasiController::class, [
             'as' => 'admin.web'
         ]);
-        Route::delete('/web-management/akomodasi/{id}/hapus-gambar',
+        Route::delete('/web-management/akomodasi/gambar/{id}',
             [AkomodasiController::class, 'hapusGambar'])
             ->name('admin.web.akomodasi.hapus-gambar');
 
@@ -83,7 +83,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('/web-management/diving', PenyediaDivingController::class, [
             'as' => 'admin.web'
         ]);
-        Route::delete('/web-management/diving/{id}/hapus-gambar',
+        Route::delete('/web-management/diving/gambar/{id}',
             [PenyediaDivingController::class, 'hapusGambar'])
             ->name('admin.web.diving.hapus-gambar');
 

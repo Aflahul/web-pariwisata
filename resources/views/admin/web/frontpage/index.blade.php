@@ -35,7 +35,7 @@
                 <ul class="nav nav-tabs" id="frontpageTabs" role="tablist">
                     <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tabHero">Hero</a></li>
                     {{-- <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabWelcome">Welcome</a></li> --}}
-                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabGuide">Panduan Wisata</a></li>
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabGuide">Daya Tarik Wilayah</a></li>
                     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabSlider">Slider Destinasi</a>
                     </li>
                     {{-- <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabFooter">Kontak Footer</a></li> --}}
@@ -98,12 +98,12 @@
 
                     {{-- TAB GUIDE --}}
                     <div class="tab-pane fade" id="tabGuide">
-                        <h5 class="mb-3">Panduan Wisata (3 Kartu)</h5>
+                        <h5 class="mb-3">Mengapa Harus Ke Supiori?</h5>
 
                         <div class="row">
                             {{-- Card 1 --}}
                             <div class="col-md-4">
-                                <label>Judul 1</label>
+                                <label>Daya Tarik 1</label>
                                 <input name="guide1_title" class="form-control mb-2"
                                     value="{{ old('guide1_title', $settings->guide1_title ?? '') }}">
                                 <textarea name="guide1_text" class="form-control">{{ old('guide1_text', $settings->guide1_text ?? '') }}</textarea>
@@ -111,7 +111,7 @@
 
                             {{-- Card 2 --}}
                             <div class="col-md-4">
-                                <label>Judul 2</label>
+                                <label>Daya Tarik 2</label>
                                 <input name="guide2_title" class="form-control mb-2"
                                     value="{{ old('guide2_title', $settings->guide2_title ?? '') }}">
                                 <textarea name="guide2_text" class="form-control">{{ old('guide2_text', $settings->guide2_text ?? '') }}</textarea>
@@ -119,7 +119,7 @@
 
                             {{-- Card 3 --}}
                             <div class="col-md-4">
-                                <label>Judul 3</label>
+                                <label>Daya Tarik 3</label>
                                 <input name="guide3_title" class="form-control mb-2"
                                     value="{{ old('guide3_title', $settings->guide3_title ?? '') }}">
                                 <textarea name="guide3_text" class="form-control">{{ old('guide3_text', $settings->guide3_text ?? '') }}</textarea>
