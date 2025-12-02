@@ -1,15 +1,14 @@
-
 /*** Spinner Start ***/
 /*** Spinner ***/
 #spinner {
     opacity: 0;
     visibility: hidden;
-    transition: opacity .5s ease-out, visibility 0s linear .5s;
+    transition: opacity 0.5s ease-out, visibility 0s linear 0.5s;
     z-index: 99999;
 }
 
 #spinner.show {
-    transition: opacity .5s ease-out, visibility 0s linear 0s;
+    transition: opacity 0.5s ease-out, visibility 0s linear 0s;
     visibility: visible;
     opacity: 1;
 }
@@ -31,7 +30,7 @@
 /*** Button Start ***/
 .btn {
     font-weight: 600;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .btn-square {
@@ -69,7 +68,7 @@
 .btn.btn-primary {
     background: var(--bs-secondary) !important;
     color: var(--bs-white) !important;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 400;
     transition: 0.5s;
 }
@@ -83,7 +82,7 @@
 .btn.btn-secondary {
     background: transparent;
     color: var(--bs-secondary);
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 400;
     border: none;
     transition: 0.5s;
@@ -92,7 +91,6 @@
 .btn.btn-secondary:hover {
     color: var(--bs-primary) !important;
 }
-
 
 /*** Section Title Start ***/
 .section-title {
@@ -163,7 +161,6 @@
     border: 1px solid var(--bs-primary) !important;
 }
 
-
 /*** Topbar Start ***/
 .fixed-top .container {
     transition: 0.5s;
@@ -184,18 +181,16 @@
     color: var(--bs-secondary) !important;
 }
 
-
 @media (max-width: 768px) {
     .topbar {
-        display: none;    
+        display: none;
     }
 }
 /*** Topbar End ***/
 
-
 /*** Navbar ***/
 .navbar-light .navbar-nav .nav-link {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     position: relative;
     margin-right: 25px;
     padding: 35px 0;
@@ -203,7 +198,7 @@
     font-size: 17px;
     font-weight: 400;
     outline: none;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .sticky-top .navbar-light .navbar-nav .nav-link {
@@ -218,7 +213,7 @@
 
 .navbar-light .navbar-brand img {
     max-height: 60px;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .sticky-top .navbar-light .navbar-brand img {
@@ -242,7 +237,7 @@
         transform-origin: 0% 0%;
         border: 0;
         border-radius: 10px;
-        transition: .5s;
+        transition: 0.5s;
         opacity: 0;
     }
 }
@@ -256,7 +251,7 @@
     transform: rotateX(0deg);
     visibility: visible;
     background: var(--bs-light) !important;
-    transition: .5s;
+    transition: 0.5s;
     opacity: 1;
 }
 
@@ -274,7 +269,7 @@
 
     .navbar-light .navbar-collapse {
         margin-top: 15px;
-        border-top: 1px solid #DDDDDD;
+        border-top: 1px solid #dddddd;
     }
 
     .navbar-light .navbar-nav .nav-link,
@@ -335,10 +330,10 @@
 }
 /*** Navbar End ***/
 
-
 /*** Single Page Hero Header Start ***/
 .bg-breadcrumb {
-    background: linear-gradient(rgba(0, 58, 102, 0.9), rgba(0, 58, 102, 0.8)), url(../img/breadcrumb.png);
+    background: linear-gradient(rgba(0, 58, 102, 0.9), rgba(0, 58, 102, 0.8)),
+        url(../img/breadcrumb.png);
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: initial;
@@ -346,7 +341,6 @@
     padding: 100px 0 60px 0;
 }
 /*** Single Page Hero Header End ***/
-
 
 /*** Carousel Hero Header Start ***/
 .carousel-header .carousel-control-prev .carousel-control-prev-icon,
@@ -369,7 +363,6 @@
     transition: 0.5s;
 }
 
-
 .carousel-header .carousel .carousel-indicators li,
 .carousel-header .carousel .carousel-indicators li,
 .carousel-header .carousel .carousel-indicators li {
@@ -389,7 +382,7 @@
 
 .carousel-header .carousel-inner .carousel-item {
     position: relative;
-    min-height: 100vh 
+    min-height: 100vh;
 }
 
 .carousel-header .carousel-inner .carousel-item img {
@@ -399,7 +392,7 @@
     object-fit: cover;
 }
 
-.carousel-header .carousel-inner .carousel-item .carousel-caption  {
+.carousel-header .carousel-inner .carousel-item .carousel-caption {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -409,10 +402,9 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, 0.2));
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
     background-size: cover;
 }
-
 
 @media (max-width: 768px) {
     .carousel-header {
@@ -438,10 +430,13 @@
 }
 /*** Carousel Hero Header End ***/
 
-
 /*** Counter Facts Start ***/
 .counter-facts {
-    background: linear-gradient(rgba(255, 255, 255, .9), rgba(255, 255, 255, 0.8)), url('{{ image_path($fp->hero_image ?? null) }}');
+    background: linear-gradient(
+            rgba(255, 255, 255, 0.9),
+            rgba(255, 255, 255, 0.8)
+        ),
+        url("{{ image_path($fp->hero_image ?? null) }}");
     background-size: cover;
     background-attachment: fixed;
     background-position: center center;
@@ -460,6 +455,13 @@
     background: var(--bs-white);
 }
 
+.content-format p {
+    text-align: justify;
+    text-indent: 30px;
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
 .counter-facts .counter:before {
     content: "";
     position: absolute;
@@ -469,7 +471,6 @@
     top: 0;
     border-radius: 10px 10px 0 0;
     background-color: var(--bs-primary);
-    
 }
 .counter-facts .counter .counter-icon {
     position: relative;
@@ -517,11 +518,11 @@
 }
 
 @media screen and (max-width: 1200px) {
-    .counter-facts .counter { margin-bottom: 40px; 
+    .counter-facts .counter {
+        margin-bottom: 40px;
     }
 }
 /*** Counter Facts End ***/
-
 
 /*** service Start ***/
 .service .service-item {
@@ -538,7 +539,7 @@
 
 .service .service-item .service-inner .service-title .service-content {
     position: absolute;
-    bottom: -100%; 
+    bottom: -100%;
     left: 0;
     margin-left: 30px;
     margin-right: 30px;
@@ -555,7 +556,7 @@
 }
 
 .service .service-item .service-inner .service-title .service-content a h4 {
-    border-bottom: 1px solid rgba(256, 256, 256, .1);
+    border-bottom: 1px solid rgba(256, 256, 256, 0.1);
 }
 
 .service .service-item .service-inner .service-title .service-title-name {
@@ -580,7 +581,7 @@
     width: 100%;
     height: 0;
     border-radius: 10px;
-    background: rgba(255, 255, 255, .5);
+    background: rgba(255, 255, 255, 0.5);
     transition: 0.5s;
     opacity: 0;
 }
@@ -598,7 +599,6 @@
     transform: scale(1.3);
 }
 /*** Service End ***/
-
 
 /*** Features Start ***/
 .features .feature-item {
@@ -625,7 +625,7 @@
 }
 
 .features .feature-item .feature-icon {
-    width: 120px; 
+    width: 120px;
     height: 120px;
     border-radius: 10px;
     display: inline-flex;
@@ -652,7 +652,6 @@
 }
 /*** Features End ***/
 
-
 /*** Country Start ***/
 .country .country-item {
     position: relative;
@@ -677,11 +676,11 @@
 
 .country .country-item .country-flag {
     position: absolute;
-    width: 90px; 
-    height: 90px; 
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
-    top: -45px; 
-    left: 50%; 
+    top: -45px;
+    left: 50%;
     transform: translateX(-50%);
     transition: 0.5s;
     z-index: 2;
@@ -729,19 +728,24 @@
 }
 /*** Country End ***/
 
-
 /*** testimonial Start ***/
 .testimonial .owl-carousel.testimonial-carousel {
     position: relative;
 }
 
-.testimonial .owl-carousel.testimonial-carousel .testimonial-item .testimonial-content {
+.testimonial
+    .owl-carousel.testimonial-carousel
+    .testimonial-item
+    .testimonial-content {
     position: relative;
     border-radius: 10px;
     background: var(--bs-light);
 }
 
-.testimonial .owl-carousel.testimonial-carousel .testimonial-item .testimonial-content::after {
+.testimonial
+    .owl-carousel.testimonial-carousel
+    .testimonial-item
+    .testimonial-content::after {
     position: absolute;
     content: "";
     width: 45px;
@@ -777,7 +781,6 @@
 }
 /*** testimonial end ***/
 
-
 /*** training Start ***/
 .training .training-item .training-inner {
     position: relative;
@@ -792,7 +795,7 @@
     padding: 20px;
     border-radius: 10px;
     background: rgba(0, 0, 0, 0.5);
-    display: flex; 
+    display: flex;
     flex-direction: column;
     justify-content: end;
     text-align: center;
@@ -831,9 +834,8 @@
 
 .training .training-item:hover .training-content {
     bottom: 0;
-}  
+}
 /*** training End ***/
-
 
 /*** Contact Start ***/
 .contact .office .office-item {
@@ -876,7 +878,6 @@
 }
 /*** Contact End ***/
 
-
 /*** Footer Start ***/
 .footer {
     background: var(--bs-primary);
@@ -897,7 +898,6 @@
 }
 
 /*** Footer End ***/
-
 
 /*** copyright Start ***/
 .copyright {

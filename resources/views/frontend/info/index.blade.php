@@ -7,7 +7,7 @@
 
     {{-- PAGE HEADER (like Travisa breadcrumb section) --}}
     <div class="container-fluid page-header py-5"
-         style="background: linear-gradient(rgba(255,255,255,.9), rgba(255,255,255,.8)), 
+        style="background: linear-gradient(rgba(255,255,255,.9), rgba(255,255,255,.8)), 
                  url('{{ image_path($fp->hero_image ?? null) }}');
                 background-size: cover;
                 background-position: center;">
@@ -27,8 +27,8 @@
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="rounded-3 overflow-hidden shadow-lg">
                         <img class="img-fluid w-100"
-                             src="{{ $info && $info->image ? asset('storage/' . $info->image) : asset('frontend/img/default.jpg') }}"
-                             alt="{{ $info->title }}">
+                            src="{{ $info && $info->image ? asset('storage/' . $info->image) : asset('frontend/img/default.jpg') }}"
+                            alt="{{ $info->title }}">
                     </div>
                 </div>
 
@@ -38,10 +38,21 @@
                     <h5 class="sub-title pe-3">{{ $info->subtitle }}</h5>
 
                     <h1 class="display-5 mb-4">{{ $info->title }}</h1>
+                    {{-- CONTENT WITH PARAGRAPH HANDLING --}}
+                    @php
+                        $paragraphs = preg_split("/\r\n|\n|\r/", trim($info->content));
+                    @endphp
 
-                    <div class="text-dark mb-4">
-                        {!! $info->content !!}
+                    <div class="text-dark content-format">
+                        @foreach ($paragraphs as $p)
+                            @if (trim($p) !== '')
+                                <p>{{ $p }}</p>
+                            @else
+                                <br>
+                            @endif
+                        @endforeach
                     </div>
+
 
                     {{-- Highlight Icons ala Travisa --}}
                     <div class="row gy-4 pt-2">

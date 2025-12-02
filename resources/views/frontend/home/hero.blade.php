@@ -54,7 +54,7 @@
 
                             @if ($item->excerpt)
                                 <p class="text-white mb-4 mb-md-5 fs-5">
-                                    {{ $item->excerpt }}
+                                    {!! nl2br(e( $item->excerpt) ) !!}
                                 </p>
                             @endif
 

@@ -51,8 +51,19 @@
                     {{-- DESCRIPTION --}}
                     <div class="wow fadeInUp" data-wow-delay="0.2s">
                         <h3 class="mb-4">Deskripsi</h3>
-                        <div class="text-dark">
-                            {!! $dest->deskripsi !!}
+
+                        @php
+                            $paragraphs = preg_split("/\r\n|\n|\r/", trim($dest->deskripsi));
+                        @endphp
+
+                        <div class="text-dark content-format">
+                            @foreach ($paragraphs as $p)
+                                @if (trim($p) !== '')
+                                    <p>{{ $p }}</p>
+                                @else
+                                    <br>
+                                @endif
+                            @endforeach
                         </div>
                     </div>
 

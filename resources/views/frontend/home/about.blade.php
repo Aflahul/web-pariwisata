@@ -23,8 +23,19 @@
                         {{ $info->title }}
                     </h1>
 
-                    <div class="mb-4">
-                        {!! $info->content !!}
+                    {{-- CONTENT WITH PARAGRAPH HANDLING --}}
+                    @php
+                        $paragraphs = preg_split("/\r\n|\n|\r/", trim($info->content));
+                    @endphp
+
+                    <div class="text-dark content-format">
+                        @foreach ($paragraphs as $p)
+                            @if (trim($p) !== '')
+                                <p>{{ $p }}</p>
+                            @else
+                                <br>
+                            @endif
+                        @endforeach
                     </div>
 
                     <div class="row gy-4 mt-3">
