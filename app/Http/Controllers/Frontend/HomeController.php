@@ -9,6 +9,7 @@ use App\Models\PenyediaDiving;
 use App\Models\InformasiDaerah;
 use App\Models\FrontpageSetting;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Collection;
 
 class HomeController extends Controller
 {
@@ -43,11 +44,45 @@ class HomeController extends Controller
             ->limit(3)
             ->get();
 
-        // Galeri terbaru
-        $galeri = Galeri::where('is_published', 1)
+        $galeri = new Collection();
+        // 1. Foto/Video dari tabel galeri umum
+        $galeriUmum = Galeri::where('is_published', 1)
             ->latest()
-            ->limit(8)
-            ->get();
+            ->get()
+            ->map(function ($g) {
+                return [
+                    'type'  => $g->jenis === 'video' ? 'video' : 'photo',
+                    'src'   => $g->jenis === 'video' ? $g->video_url : $g->image,
+                    'title' => $g->title,
+                    'from'  => 'galeri'
+                ];
+            });
+
+        $galeri = $galeri->merge($galeriUmum);
+
+        // 2. Semua foto dari destinasi
+       $destinasi = Destinasi::all();
+
+        foreach ($destinasi as $dest) {
+
+            if (empty($dest->gambar)) continue;  // karena sudah array, cukup cek kosong
+
+            foreach ($dest->gambar as $img) {
+                if (!$img) continue; // skip null atau string kosong
+                $galeri->push([
+                    'type'  => 'photo',
+                    'src'   => $img,
+                    'title' => $dest->nama,
+                    'from'  => 'destinasi'
+                ]);
+            }
+        }
+
+        // 3. Galeri umum muncul dulu, destinasi di bawahnya
+        $galeri = $galeri->sortByDesc('from')->values();
+
+        // 4. Limit untuk beranda
+        $galeri = $galeri->take(8);
 
         return view('frontend.home.index', compact(
             'fp',

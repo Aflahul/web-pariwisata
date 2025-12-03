@@ -601,10 +601,13 @@
 /*** Service End ***/
 
 /*** Features Start ***/
+
+
 .features .feature-item {
     position: relative;
     box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    border-radius: 10px; 
+    
 }
 
 .features .feature-item::after {
@@ -615,7 +618,7 @@
     bottom: 0;
     left: 0;
     border-radius: 10px;
-    background: rgba(0, 58, 102, 0.1);
+    background: var(--bs-light);
     z-index: -1;
     transition: 0.5s;
 }

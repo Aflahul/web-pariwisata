@@ -1,6 +1,6 @@
 {{-- DESTINASI WISATA --}}
 @if ($unggulan->count())
-    <div class="container-fluid service overflow-hidden pt-5">
+    <div class="container-fluid service overflow-hidden pt-5 bg-light">
         <div class="container py-5">
 
             {{-- JUDUL --}}
@@ -13,7 +13,7 @@
             </div>
 
             {{-- GRID DESTINASI --}}
-            <div class="row g-4">
+            <div class="row g-4 justify-content-center">
 
                 @foreach ($unggulan as $dest)
                     <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="{{ $loop->iteration * 0.2 }}s">

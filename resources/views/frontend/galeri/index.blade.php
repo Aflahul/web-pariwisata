@@ -14,7 +14,7 @@
     </div>
 
     {{-- GALERI LIST --}}
-    <div class="container-fluid py-5">
+    <div class="container-fluid country py-5">
         <div class="container">
 
             <div class="row g-4">
@@ -38,10 +38,10 @@
                                     </iframe>
                                 </div>
                             @endif
-
-                            {{-- TITLE --}}
-                            @if (!empty($item['title']))
-                                <h6 class="text-center mt-2">{{ $item['title'] }}</h6>
+                            @if ($item['title'])
+                                <div class="country-name">
+                                    <a class="text-white fs-4">{{ $item['title'] }}</a>
+                                </div>
                             @endif
 
                         </div>

@@ -2,7 +2,6 @@
 @if ($galeri->count())
     <div class="container-fluid country overflow-hidden py-5">
         <div class="container">
-
             {{-- JUDUL --}}
             <div class="section-title text-center wow fadeInUp" data-wow-delay="0.1s" style="margin-bottom: 70px;">
                 <div class="sub-style">
@@ -13,7 +12,7 @@
             </div>
 
             {{-- GRID --}}
-            <div class="row g-4 text-center">
+            <div class="row g-4 justify-content-center">
 
                 @foreach ($galeri as $item)
                     <div class="col-lg-6 col-xl-3 mb-5 mb-xl-0 wow fadeInUp"

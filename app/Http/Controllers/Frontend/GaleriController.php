@@ -33,7 +33,7 @@ class GaleriController extends Controller
         $items = $items->merge($galeriUmum);
 
         // 2. AMBIL SEMUA FOTO DARI DESTINASI
-        $destinasi = Destinasi::where('is_published', 1)->get();
+        $destinasi = Destinasi::all();
 
         foreach ($destinasi as $dest) {
             if (is_array($dest->gambar)) {
