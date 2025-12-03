@@ -4,18 +4,21 @@
 @section('meta_description', 'Daftar lengkap destinasi wisata di Kabupaten Supiori.')
 
 @section('content')
+    <div class="container-fluid page-header py-5"
+        style="background: linear-gradient(rgba(0, 58, 102, 0.3),rgba(0, 58, 102, 0.2)), 
+                 url('{{ image_path($fp->hero_image ?? null) }}');
+                background-size: cover;
+                background-position: center;">
+        <div class="section-title text-center z-50 wow fadeInUp" data-wow-delay="0.1s" style="margin-bottom: 70px;">
+            <div class="sub-style pt-4">
+                <h5 class="sub-title text-light px-3 ">Destinasi Wisata</h5>
+            </div>
+            <h1 class="display-4 text-light">Temukan Keindahan Wisata Supiori</h1>
+            <p class="mb-0 text-light fw-semibold">Jelajahi destinasi alam dan budaya terbaik di Kabupaten Supiori.</p>
+        </div>
+    </div>
     <div class="container-fluid service overflow-hidden pt-5">
         <div class="container py-5">
-
-            {{-- JUDUL --}}
-            <div class="section-title text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="sub-style">
-                    <h5 class="sub-title text-primary px-3">Destinasi Wisata</h5>
-                </div>
-                <h1 class="display-5 mb-4">Temukan Keindahan Wisata Supiori</h1>
-                <p class="mb-0">Jelajahi destinasi alam dan budaya terbaik di Kabupaten Supiori.</p>
-            </div>
-
             {{-- GRID DESTINASI --}}
             <div class="row g-4">
 

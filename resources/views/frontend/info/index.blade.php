@@ -5,21 +5,21 @@
 
 @section('content')
 
-    {{-- PAGE HEADER (like Travisa breadcrumb section) --}}
+    {{-- PAGE HEADER  --}}
     <div class="container-fluid page-header py-5"
-        style="background: linear-gradient(rgba(255,255,255,.9), rgba(255,255,255,.8)), 
-                 url('{{ image_path($fp->hero_image ?? null) }}');
+        style="background: linear-gradient(rgba(0, 58, 102, 0.3),rgba(0, 58, 102, 0.2)), 
+                 url('{{ image_path($info->image ?? null) }}');
                 background-size: cover;
                 background-position: center;">
         <div class="container text-center py-5">
-            <h1 class="display-4 text-primary">{{ $info->title ?? 'Tentang Daerah' }}</h1>
-            <p class="mb-0 fw-semibold">{{ $info->subtitle }}</p>
+            <h1 class="display-4 text-light">{{ $info->title ?? 'Tentang Daerah' }}</h1>
+            <p class="mb-0 text-light fw-semibold">{{ $info->subtitle }}</p>
         </div>
     </div>
 
     {{-- MAIN SECTION --}}
     <div class="container-fluid about py-5">
-        <div class="container py-5">
+        <div class="container">
 
             <div class="row g-5 align-items-center">
 
@@ -34,10 +34,6 @@
 
                 {{-- RIGHT TEXT --}}
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-
-                    <h5 class="sub-title pe-3">{{ $info->subtitle }}</h5>
-
-                    <h1 class="display-5 mb-4">{{ $info->title }}</h1>
                     {{-- CONTENT WITH PARAGRAPH HANDLING --}}
                     @php
                         $paragraphs = preg_split("/\r\n|\n|\r/", trim($info->content));

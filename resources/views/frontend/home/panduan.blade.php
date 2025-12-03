@@ -1,16 +1,5 @@
 {{-- PANDUAN WISATA / WHY CHOOSE US --}}
 @if ($fp && ($fp->guide1_title || $fp->guide2_title || $fp->guide3_title))
-{{-- <style>
-.featuress {
-    background:
-        linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
-        url("{{ image_path($fp->hero_image ?? null) }}");
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center center;
-    background-repeat: no-repeat;
-}
-</style> --}}
     <div class="container-fluid features overflow-hidden py-5">
         <div class="container">
 

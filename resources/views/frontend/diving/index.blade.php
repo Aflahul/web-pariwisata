@@ -4,20 +4,25 @@
 @section('meta_description', 'Daftar penyedia jasa wisata terbaik di Kabupaten Supiori.')
 
 @section('content')
+    <div class="container-fluid page-header py-5"
+        style="background: linear-gradient(rgba(0, 58, 102, 0.3),rgba(0, 58, 102, 0.2)), 
+                 url('{{ image_path($fp->hero_image ?? null) }}');
+                background-size: cover;
+                background-position: center;">
+        <div class="section-title text-center z-50 wow fadeInUp" data-wow-delay="0.1s" style="margin-bottom: 70px;">
+            <div class="sub-style pt-4">
+                <h5 class="sub-title text-light px-3 ">Penyedia Jasa Wisata</h5>
+            </div>
+            <h1 class="display-4 text-light">Penyedia Jasa dan Alat Diving di Supiori</h1>
+            <p class="mb-0 text-light fw-semibold">Temukan penyedia alat diving profesional untuk eksplorasi bawah laut yang
+                aman dan menyenangkan.
+            </p>
+        </div>
+    </div>
 
     <div class="container-fluid office overflow-hidden py-5">
         <div class="container">
 
-            {{-- JUDUL --}}
-            <div class="section-title text-center wow fadeInUp" data-wow-delay="0.1s" style="margin-bottom: 70px;">
-                <div class="sub-style">
-                    <h5 class="sub-title text-primary px-3">PENYEDIA ALAT DIVING</h5>
-                </div>
-                <h1 class="display-5 mb-4">Penyedia Alat Diving di Supiori</h1>
-                <p class="mb-0">
-                    Temukan penyedia alat diving profesional untuk eksplorasi bawah laut yang aman dan menyenangkan.
-                </p>
-            </div>
 
             <div class="row g-4">
 
@@ -28,9 +33,8 @@
 
                             {{-- FOTO --}}
                             <div class="office-img rounded overflow-hidden mb-4 text-center">
-                                <img src="{{ image_path($dv->gambar[0] ?? null) }}"
-                                     alt="{{ $dv->nama }}"
-                                     class="img-fluid w-100">
+                                <img src="{{ image_path($dv->gambar[0] ?? null) }}" alt="{{ $dv->nama }}"
+                                    class="img-fluid w-100">
                             </div>
 
                             {{-- NAMA --}}
@@ -54,7 +58,7 @@
 
                             {{-- LINK DETAIL --}}
                             <a class="btn btn-primary border-secondary rounded-pill py-3 px-5"
-                               href="{{ route('front.diving.show', $dv->slug) }}">
+                                href="{{ route('front.diving.show', $dv->slug) }}">
                                 Lihat Detail
                             </a>
 

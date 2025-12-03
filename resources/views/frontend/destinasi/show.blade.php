@@ -6,9 +6,14 @@
 @section('content')
 
     {{-- HEADER --}}
-    <div class="container-fluid page-header-destinasi py-5">
+    <div class="container-fluid page-header py-5"
+        style="background: 
+        linear-gradient(rgba(0, 58, 102, 0.3),rgba(0, 58, 102, 0.2)), 
+                 url('{{ image_path($dest->gambar[0] ?? null) }}');
+                background-size: cover;
+                background-position: center;">
         <div class="container text-center py-5">
-            <h1 class="display-4 text-primary">{{ $dest->nama }}</h1>
+            <h1 class="display-4 text-light">{{ $dest->nama }}</h1>
         </div>
     </div>
 

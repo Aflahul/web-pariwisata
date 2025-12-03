@@ -4,22 +4,24 @@ namespace App\Helpers;
 
 class ImageHelper
 {
-    /**
-     * Generate path gambar yang aman dan fleksibel.
-     */
     public static function imagePath($img)
     {
-        // fallback
-        if (!$img) {
+        // Jika array → ambil elemen pertama
+        if (is_array($img)) {
+            $img = $img[0] ?? null;
+        }
+
+        // Jika null atau kosong → pakai default
+        if (!$img || trim($img) === '') {
             return asset('frontend/img/default.png');
         }
 
-        // path public (frontend/img/…)
-        if (str_starts_with($img, 'frontend/')) {
+        // Jika path public / langsung dari public/
+        if (str_starts_with($img, 'frontend/') || str_starts_with($img, 'img/')) {
             return asset($img);
         }
 
-        // path storage (uploads/…)
+        // Jika path storage
         return asset('storage/' . $img);
     }
 }

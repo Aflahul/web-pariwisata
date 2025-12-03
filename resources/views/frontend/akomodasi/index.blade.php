@@ -4,21 +4,23 @@
 @section('meta_description', 'Daftar penginapan dan hotel terbaik di Kabupaten Supiori.')
 
 @section('content')
-
+    <div class="container-fluid page-header py-5"
+        style="background: linear-gradient(rgba(0, 58, 102, 0.3),rgba(0, 58, 102, 0.2)), 
+                 url('{{ image_path($fp->hero_image ?? null) }}');
+                background-size: cover;
+                background-position: center;">
+        <div class="section-title text-center z-50 wow fadeInUp" data-wow-delay="0.1s" style="margin-bottom: 70px;">
+            <div class="sub-style pt-4">
+                <h5 class="sub-title text-light px-3 ">AKOMODASI</h5>
+            </div>
+            <h1 class="display-4 text-light">Akomodasi Rekomendasi di Supiori</h1>
+            <p class="mb-0 text-light fw-semibold">Pilihan tempat menginap terbaik dengan kenyamanan dan akses
+                mudah ke lokasi wisata.</p>
+        </div>
+    </div>
     <div class="container-fluid training overflow-hidden py-5">
         <div class="container">
-
-            {{-- JUDUL --}}
-            <div class="section-title text-center z-50 wow fadeInUp" data-wow-delay="0.1s" style="margin-bottom: 70px;">
-                <div class="sub-style">
-                    <h5 class="sub-title text-primary px-3">AKOMODASI</h5>
-                </div>
-                <h1 class="display-5 mb-4">Akomodasi Rekomendasi di Supiori</h1>
-                <p class="mb-0">Pilihan tempat menginap terbaik dengan kenyamanan dan akses mudah ke lokasi wisata.</p>
-            </div>
-
             <div class="row g-4">
-
                 @foreach ($data as $akom)
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="{{ $loop->iteration * 0.2 }}s">
                         <div class="training-item p-4">
