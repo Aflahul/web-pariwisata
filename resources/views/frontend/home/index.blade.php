@@ -22,7 +22,7 @@
     {{-- PENYEDIA JASA --}}
     @include('frontend.home.diving')
     {{-- GALERI --}}
-    @include('frontend.home.galeri')
+    {{-- @include('frontend.home.galeri') --}}
 
 
 @endsection

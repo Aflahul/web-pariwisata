@@ -1,5 +1,5 @@
 {{-- HERO SECTION --}}
-<div class="carousel-header">
+<div class="carousel-header p-0">
     <div id="carouselHome" class="carousel slide" data-bs-ride="carousel">
 
         {{-- Indicator --}}

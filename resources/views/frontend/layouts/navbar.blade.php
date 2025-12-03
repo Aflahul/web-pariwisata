@@ -1,6 +1,7 @@
 <div class="container-fluid nav-bar p-0">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light px-4 px-lg-5 py-3 py-lg-0">
-        <a href="{{ route('front.home') }}" class="navbar-brand d-flex align-items-center gap-3 p-0">
+    <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 navbar-transparent">
+
+        <a href="{{ route('front.home') }}" class="navbar-brand d-flex align-items-center gap-3 p-1">
 
             {{-- LOGO --}}
             @if (isset($fp) && $fp->logo)
@@ -11,10 +12,10 @@
 
             {{-- TEKS DI SAMPING LOGO --}}
             <div class="d-flex flex-column lh-sm">
-                <span class="fw-bold text-primary" style="font-size: 1.1rem;">
+                <span class="fw-bold text-light" style="font-size: 1.1rem;">
                     Dinas Kebudayaan dan Pariwisata
                 </span>
-                <span class="fw-bold text-primary" style="font-size: 1.1rem;">
+                <span class="fw-bold text-light" style="font-size: 1.1rem;">
                     Kabupaten Supiori
                 </span>
             </div>

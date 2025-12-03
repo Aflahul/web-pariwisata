@@ -66,6 +66,21 @@
     <script src="{{ asset('frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
 
     <script src="{{ asset('frontend/js/main.js') }}"></script>
+    <script>
+        document.addEventListener("scroll", () => {
+            const nav = document.querySelector(".navbar");
+            if (window.scrollY > 50) {
+                nav.classList.add("navbar-scrolled");
+                nav.classList.remove("navbar-transparent");
+            } else {
+                nav.classList.add("navbar-transparent");
+                nav.classList.remove("navbar-scrolled");
+            }
+        });
+    </script>
+
+
+
 
     @stack('scripts')
 
