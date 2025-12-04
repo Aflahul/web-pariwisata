@@ -8,7 +8,7 @@
     {{-- HEADER --}}
     <div class="container-fluid page-header py-5"
         style="background: 
-        linear-gradient(rgba(0, 58, 102, 0.3),rgba(0, 58, 102, 0.2)), 
+        linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.4)),
                  url('{{ image_path($dest->gambar[0] ?? null) }}');
                 background-size: cover;
                 background-position: center;">

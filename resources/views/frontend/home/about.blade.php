@@ -1,6 +1,6 @@
 {{-- ABOUT SECTION --}}
 @if ($info)
-    <div class="container-fluid py-5 bg-light">
+    <div class="container-fluid py-5 bg-dark">
         <div class="container py-5">
             <div class="row g-5">
 
@@ -17,9 +17,9 @@
                 {{-- TEXT --}}
                 <div class="col-xl-7 wow fadeInRight" data-wow-delay="0.3s">
 
-                    <h5 class="sub-title pe-3">{{ $info->subtitle }}</h5>
+                    <h5 class="sub-title pe-3 text-light">{{ $info->subtitle }}</h5>
 
-                    <h1 class="display-5 mb-4">
+                    <h1 class="display-5 mb-4 text-light">
                         {{ $info->title }}
                     </h1>
 
@@ -28,7 +28,7 @@
                         $paragraphs = preg_split("/\r\n|\n|\r/", trim($info->content));
                     @endphp
 
-                    <div class="text-dark content-format">
+                    <div class="text-light content-format">
                         @foreach ($paragraphs as $p)
                             @if (trim($p) !== '')
                                 <p>{{ $p }}</p>
@@ -42,12 +42,12 @@
 
                         <div class="col-12 col-sm-6 d-flex align-items-center">
                             <i class="fas fa-map-marked-alt fa-3x text-secondary"></i>
-                            <h5 class="ms-4">Destinasi Alam yang Memukau</h5>
+                            <h5 class="ms-4 text-light">Destinasi Alam yang Memukau</h5>
                         </div>
 
                         <div class="col-12 col-sm-6 d-flex align-items-center">
                             <i class="fas fa-water fa-3x text-secondary"></i>
-                            <h5 class="ms-4">Spot Snorkeling & Diving Terbaik</h5>
+                            <h5 class="text-light ms-4">Spot Snorkeling & Diving Terbaik</h5>
                         </div>
 
                     </div>

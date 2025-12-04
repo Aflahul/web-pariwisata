@@ -7,7 +7,7 @@
 
     {{-- PAGE HEADER  --}}
     <div class="container-fluid page-header py-5"
-        style="background: linear-gradient(rgba(0, 58, 102, 0.3),rgba(0, 58, 102, 0.2)), 
+        style="background: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.6)), 
                  url('{{ image_path($info->image ?? null) }}');
                 background-size: cover;
                 background-position: center;">

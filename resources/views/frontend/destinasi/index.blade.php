@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="container-fluid page-header py-5"
-        style="background: linear-gradient(rgba(0, 58, 102, 0.3),rgba(0, 58, 102, 0.2)), 
+        style="background: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.4)),
                  url('{{ image_path($fp->hero_image ?? null) }}');
                 background-size: cover;
                 background-position: center;">

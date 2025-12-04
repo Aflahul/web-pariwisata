@@ -8,11 +8,11 @@
     {{-- HERO SECTION --}}
     @include('frontend.home.hero')
 
-    {{-- ABOUT / INFORMASI DAERAH --}}
-    @include('frontend.home.about')
-
     {{-- PANDUAN WISATA (KENAPA HARUS SUPIORI?) --}}
     @include('frontend.home.panduan')
+
+    {{-- ABOUT / INFORMASI DAERAH --}}
+    @include('frontend.home.about')
     
     {{-- DESTINASI WISATA --}}
     @include('frontend.home.destinasi')
