@@ -40,7 +40,7 @@
                     @if ($kontak->jam_operasional)
                         <p class="text-white mb-0">
                             <i class="fa fa-clock me-2"></i>
-                            {{ $kontak->jam_operasional}}
+                            {{ $kontak->jam_operasional }}
                         </p>
                     @endif
                 @endif
@@ -88,7 +88,7 @@
 
         {{-- COPYRIGHT --}}
         <span class="text-white fw-semibold" style="letter-spacing: 0.5px;">
-            © {{ date('Y') }} Dinas Kebudayaan dan Pariwisata Kabupaten Supiori. All Rights Reserved.
+            © {{ date('Y') }} Dinas Kebudayaan dan Pariwisata Kabupaten Supiori. Kovaves Kuker Araima.
         </span>
 
         {{-- CREDIT --}}

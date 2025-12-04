@@ -1,6 +1,6 @@
 {{-- PENYEDIA JASA DIVING --}}
 @if ($diving->count())
-    <div class="container-fluid contact overflow-hidden pb-5">
+    <div class="container-fluid contact overflow-hidden pb-5 bg-light">
         <div class="container py-5">
 
             <div class="office pt-5">
@@ -12,7 +12,8 @@
                     </div>
                     <h1 class="display-5 mb-4">Penyedia Jasa Wisata di Supiori</h1>
                     <p class="mb-0">
-                        Temukan penyedia jasa dan alat diving profesional untuk kenyamanan wisata dan eksplorasi bawah laut yang aman dan menyenangkan.
+                        Temukan penyedia jasa dan alat diving profesional untuk kenyamanan wisata dan eksplorasi bawah
+                        laut yang aman dan menyenangkan.
                     </p>
                 </div>
 
@@ -20,15 +21,14 @@
 
                     @foreach ($diving as $dv)
                         <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp"
-                             data-wow-delay="{{ $loop->iteration * 0.2 }}s">
+                            data-wow-delay="{{ $loop->iteration * 0.2 }}s">
 
                             <div class="office-item p-4">
 
                                 {{-- FOTO --}}
                                 <div class="office-img mb-4">
-                                    <img src="{{ image_path($dv->gambar[0] ?? null) }}"
-                                         class="img-fluid w-100 rounded"
-                                         alt="{{ $dv->nama }}">
+                                    <img src="{{ image_path($dv->gambar[0] ?? null) }}" class="img-fluid w-100 rounded"
+                                        alt="{{ $dv->nama }}">
                                 </div>
 
                                 {{-- CONTENT --}}
@@ -53,7 +53,7 @@
 
                                     {{-- Detail --}}
                                     <a class="btn btn-primary rounded-pill mt-3 px-4 py-2"
-                                       href="{{ route('front.diving.show', $dv->slug) }}">
+                                        href="{{ route('front.diving.show', $dv->slug) }}">
                                         Lihat Detail
                                     </a>
                                 </div>
