@@ -88,7 +88,7 @@
 
         {{-- COPYRIGHT --}}
         <span class="text-white fw-semibold" style="letter-spacing: 0.5px;">
-            © {{ date('Y') }} Dinas Kebudayaan dan Pariwisata Kabupaten Supiori. Kovaves Kuker Araima.
+            © {{ date('Y') }} Dinas Kebudayaan dan Pariwisata Kabupaten Supiori. All Right Reserved.
         </span>
 
         {{-- CREDIT --}}
