@@ -60,7 +60,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Gambar Hero</label>
+                            <label class="form-label">Gambar Hero</label><br>
+                            <small class="text-primary">file Max 3MB| Format: JPG, PNG, WEBP</small>
                             <input type="file" name="hero_image" class="form-control">
 
                             @if (!empty($settings->hero_image))
@@ -176,7 +177,8 @@
                         <h5 class="mb-3">Logo </h5>
 
                         <div class="mb-3">
-                            <label class="form-label">Logo Daerah</label>
+                            <label class="form-label">Logo Daerah</label><br>
+                            <small class="text-primary">file Max 3MB | Format: JPG, PNG, WEBP</small>
                             <input type="file" name="logo" class="form-control">
 
                             @if (!empty($settings->logo))
@@ -186,7 +188,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Logo Dinas</label>
+                            <label class="form-label">Logo Dinas</label><br>
+                            <small class="text-primary">file Max 3MB | Format: JPG, PNG, WEBP</small>
                             <input type="file" name="favicon" class="form-control">
 
                             @if (!empty($settings->favicon))

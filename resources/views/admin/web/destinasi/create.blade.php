@@ -55,9 +55,9 @@
 
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label class="form-label">Gambar (bisa pilih banyak)</label>
+                            <label class="form-label">Gambar (bisa upload max 5 file)</label>
                             <input type="file" name="gambar[]" class="form-control" multiple accept="image/*">
-                            <small class="text-muted">Format: jpg, png, webp. Max per file 4MB.</small>
+                            <small class="text-primary">Format: jpg, png, webp. Max per file 3MB.</small>
                         </div>
 
                         <div class="mb-3 form-check">

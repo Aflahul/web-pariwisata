@@ -4,70 +4,83 @@
 @section('meta_description', 'Daftar penyedia jasa wisata terbaik di Kabupaten Supiori.')
 
 @section('content')
+
+    {{-- HERO --}}
     <div class="container-fluid page-header py-5"
-        style="background: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.4)),
-                 url('{{ image_path($fp->hero_image ?? null) }}');
-                background-size: cover;
-                background-position: center;">
-        <div class="section-title text-center z-50 wow fadeInUp" data-wow-delay="0.1s" style="margin-bottom: 70px;">
+        style="background:
+        linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.4)),
+        url('{{ image_path($fp->hero_image ?? null) }}');
+        background-size: cover;
+        background-position: center;">
+        <div class="section-title text-center z-50 wow fadeInUp" data-wow-delay="0.1s">
             <div class="sub-style pt-4">
-                <h5 class="sub-title text-light px-3 ">Penyedia Jasa Wisata</h5>
+                <h5 class="sub-title text-light px-3">Penyedia Jasa Wisata</h5>
             </div>
             <h1 class="display-4 text-light">Penyedia Jasa dan Alat Diving di Supiori</h1>
-            <p class="mb-0 text-light fw-semibold">Temukan penyedia alat diving profesional untuk eksplorasi bawah laut yang
-                aman dan menyenangkan.
+            <p class="mb-0 text-light fw-semibold">
+                Temukan penyedia alat diving profesional untuk eksplorasi bawah laut yang aman.
             </p>
         </div>
     </div>
 
-    <div class="container-fluid office overflow-hidden py-5">
+    {{-- LIST --}}
+    <div class="container-fluid contact overflow-hidden py-5">
         <div class="container">
 
+            @if ($data->count() == 0)
+                <div class="text-center py-5">
+                    <h5 class="text-muted">Belum ada penyedia jasa wisata yang tersedia.</h5>
+                </div>
+            @else
+                <div class="row g-4 office justify-content-center">
 
-            <div class="row g-4">
+                    @foreach ($data as $dv)
+                        <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="{{ $loop->iteration * 0.2 }}s">
 
-                @foreach ($data as $dv)
-                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="{{ $loop->iteration * 0.2 }}s">
+                            <div class="office-item p-4 ">
 
-                        <div class="office-item p-4">
+                                {{-- FOTO --}}
+                                <div class="office-img mb-4">
+                                    <img src="{{ image_path($dv->gambar[0] ?? null) }}" class="img-fluid w-100 rounded"
+                                        alt="{{ $dv->nama }}">
+                                </div>
 
-                            {{-- FOTO --}}
-                            <div class="office-img rounded overflow-hidden mb-4 text-center">
-                                <img src="{{ image_path($dv->gambar[0] ?? null) }}" alt="{{ $dv->nama }}"
-                                    class="img-fluid w-100">
+                                {{-- CONTENT --}}
+                                <div class="office-content d-flex flex-column">
+
+                                    <h4 class="mb-2">{{ $dv->nama }}</h4>
+
+                                    @if ($dv->kontak)
+                                        <a href="tel:{{ $dv->kontak }}" class="text-secondary fs-5 mb-2">
+                                            {{ $dv->kontak }}
+                                        </a>
+                                    @endif
+
+                                    @if ($dv->email)
+                                        <a href="mailto:{{ $dv->email }}" class="text-muted fs-5 mb-2">
+                                            {{ $dv->email }}
+                                        </a>
+                                    @endif
+
+                                    @if ($dv->alamat)
+                                        <p class="mb-0">{{ $dv->alamat }}</p>
+                                    @endif
+
+                                    {{-- Detail --}}
+                                    <a href="{{ route('front.diving.show', $dv->slug) }}"
+                                        class="btn btn-primary rounded-pill mt-3 px-4 py-2">
+                                        Lihat Detail
+                                    </a>
+
+                                </div>
+
                             </div>
-
-                            {{-- NAMA --}}
-                            <h5 class="mb-3">{{ $dv->nama }}</h5>
-
-                            {{-- ALAMAT --}}
-                            @if ($dv->alamat)
-                                <p class="mb-2">
-                                    <i class="fa fa-map-marker-alt text-primary me-2"></i>
-                                    {{ $dv->alamat }}
-                                </p>
-                            @endif
-
-                            {{-- KONTAK --}}
-                            @if ($dv->kontak)
-                                <p class="mb-3">
-                                    <i class="fa fa-phone text-primary me-2"></i>
-                                    {{ $dv->kontak }}
-                                </p>
-                            @endif
-
-                            {{-- LINK DETAIL --}}
-                            <a class="btn btn-primary border-secondary rounded-pill py-3 px-5"
-                                href="{{ route('front.diving.show', $dv->slug) }}">
-                                Lihat Detail
-                            </a>
-
                         </div>
+                    @endforeach
 
-                    </div>
-                @endforeach
+                </div>
 
-            </div>
+            @endif
 
         </div>
     </div>

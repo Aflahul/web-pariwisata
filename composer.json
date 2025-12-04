@@ -28,9 +28,8 @@
             
         },
         "files": [
-        "app/Helpers/SafeUpload.php",
-        "app/Helpers/GlobalFunctions.php",
-        "app/Helpers/ImageHelper.php"
+        
+        "app/Helpers/GlobalFunctions.php"
     ]
         
     },

@@ -61,7 +61,7 @@
                     <div class="mb-3" id="wrap_foto">
                         <label class="form-label">Upload Foto</label>
                         <input type="file" name="file_path" class="form-control" accept="image/*">
-                        <small class="text-muted">Maks 2MB. Format: JPG, PNG, WEBP.</small>
+                        <small class="text-primary">Maks 2MB. Format: JPG, PNG, WEBP.</small>
                     </div>
 
                     {{-- VIDEO URL --}}

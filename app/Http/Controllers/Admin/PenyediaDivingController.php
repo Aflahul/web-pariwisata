@@ -32,63 +32,16 @@ class PenyediaDivingController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nama'        => 'required|string|max:255',
-            'kontak'      => 'nullable|string|max:255',
-            'alamat'      => 'nullable|string|max:255',
-            'maps_url'    => 'nullable|url|max:500',
-            'deskripsi'   => 'nullable|string',
-
-            'peralatan'   => 'nullable|array',
-            'peralatan.*' => 'nullable|string|max:255',
-
-            'paket'       => 'nullable|array',
-            'paket.*'     => 'nullable|string|max:255',
-
-            'gambar'      => 'nullable|array|max:5',
-            'gambar.*'    => 'nullable|file|mimes:jpg,jpeg,png,webp|max:3048',
-
-            'is_published' => 'nullable|boolean',
-        ]);
-
-        if ($request->hasFile('gambar') && !SafeUpload::validateMaxFiles($request->file('gambar'), 5)) {
-            return back()->withErrors(['gambar' => 'Maksimal 5 file gambar.'])->withInput();
-        }
+        $this->validateForm($request);
 
         $d = new PenyediaDiving();
-        $d->nama         = $request->nama;
-        $d->kontak       = $request->kontak;
-        $d->alamat       = $request->alamat;
-        $d->maps_url     = $request->maps_url;
-        $d->deskripsi    = $request->deskripsi;
-        $d->peralatan    = $request->peralatan;
-        $d->paket        = $request->paket;
-        $d->is_published = $request->boolean('is_published');
+        $this->fillBaseFields($d, $request);
 
-        $images = [];
-
-        if ($request->hasFile('gambar')) {
-            foreach ($request->file('gambar') as $file) {
-
-                if (!SafeUpload::isRealImage($file)) {
-                    return back()->withErrors(['gambar' => 'Ada file gambar tidak valid atau berbahaya.'])->withInput();
-                }
-
-                $images[] = SafeUpload::upload(
-                    file: $file,
-                    folder: 'uploads/diving',
-                    resize: true,
-                    optimize: true,
-                    maxWidth: 1600,
-                    quality: 85
-                );
-            }
-        }
-
-        $d->gambar = $images;
+        $d->gambar = $this->processUploads($request, []);
         $d->save();
 
-        return redirect()->route('admin.web.diving.index')
+        return redirect()
+            ->route('admin.web.diving.index')
             ->with('success', 'Penyedia diving berhasil ditambahkan.');
     }
 
@@ -106,68 +59,33 @@ class PenyediaDivingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama'        => 'required|string|max:255',
-            'kontak'      => 'nullable|string|max:255',
-            'alamat'      => 'nullable|string|max:255',
-            'maps_url'    => 'nullable|url|max:500',
-            'deskripsi'   => 'nullable|string',
-
-            'peralatan'   => 'nullable|array',
-            'peralatan.*' => 'nullable|string|max:255',
-
-            'paket'       => 'nullable|array',
-            'paket.*'     => 'nullable|string|max:255',
-
-            'gambar'      => 'nullable|array|max:5',
-            'gambar.*'    => 'nullable|file|mimes:jpg,jpeg,png,webp|max:3048',
-
-            'is_published' => 'nullable|boolean',
-        ]);
+        $this->validateForm($request);
 
         $d = PenyediaDiving::findOrFail($id);
+        $this->fillBaseFields($d, $request);
 
-        $d->nama         = $request->nama;
-        $d->kontak       = $request->kontak;
-        $d->alamat       = $request->alamat;
-        $d->maps_url     = $request->maps_url;
-        $d->deskripsi    = $request->deskripsi;
-        $d->peralatan    = $request->peralatan;
-        $d->paket        = $request->paket;
-        $d->is_published = $request->boolean('is_published');
+        $existing = is_array($d->gambar) ? $d->gambar : [];
 
-        $existing = $d->gambar ?? [];
-
-        if ($request->hasFile('gambar')) {
-
-            $incoming = $request->file('gambar');
-            $total = count($existing) + count($incoming);
-
-            if ($total > 5) {
-                return back()->withErrors(['gambar' => 'Total gambar tidak boleh lebih dari 5.'])->withInput();
-            }
-
-            foreach ($incoming as $file) {
-
-                if (!SafeUpload::isRealImage($file)) {
-                    return back()->withErrors(['gambar' => 'Ada file tidak valid atau berbahaya.'])->withInput();
-                }
-
-                $existing[] = SafeUpload::upload(
-                    file: $file,
-                    folder: 'uploads/diving',
-                    resize: true,
-                    optimize: true,
-                    maxWidth: 1600,
-                    quality: 85
-                );
-            }
+        // jika tidak upload gambar baru
+        if (!$request->hasFile('gambar')) {
+            $d->save();
+            return redirect()
+                ->route('admin.web.diving.index')
+                ->with('success', 'Penyedia diving berhasil diperbarui.');
         }
 
-        $d->gambar = $existing;
+        // ada upload baru
+        $incoming = $request->file('gambar');
+        if (count($existing) + count($incoming) > 5) {
+            return back()->withErrors(['gambar' => 'Total gambar tidak boleh lebih dari 5.'])
+                         ->withInput();
+        }
+
+        $d->gambar = $this->processUploads($request, $existing);
         $d->save();
 
-        return redirect()->route('admin.web.diving.index')
+        return redirect()
+            ->route('admin.web.diving.index')
             ->with('success', 'Penyedia diving berhasil diperbarui.');
     }
 
@@ -188,7 +106,13 @@ class PenyediaDivingController extends Controller
 
         $d->delete();
 
-        return redirect()->route('admin.web.diving.index')
+        // JSON response untuk modal global delete
+        if (request()->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
+
+        return redirect()
+            ->route('admin.web.diving.index')
             ->with('success', 'Penyedia diving berhasil dihapus.');
     }
 
@@ -210,12 +134,99 @@ class PenyediaDivingController extends Controller
                 Storage::disk('public')->delete($target);
             }
 
-            $updated = array_filter($d->gambar, fn($path) => $path !== $target);
-
-            $d->gambar = array_values($updated);
+            $d->gambar = array_values(array_filter(
+                $d->gambar,
+                fn($path) => $path !== $target
+            ));
             $d->save();
         }
 
+        // jika request dari modal delete global
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
+
         return back()->with('success', 'Gambar berhasil dihapus.');
+    }
+
+
+
+    /* ===========================================================
+       VALIDASI FORM
+    =========================================================== */
+    private function validateForm(Request $request)
+    {
+        return $request->validate([
+            'nama'        => 'required|string|max:255',
+            'kontak'      => 'nullable|string|max:255',
+            'alamat'      => 'nullable|string|max:255',
+            'maps_url'    => 'nullable|url|max:500',
+            'deskripsi'   => 'nullable|string',
+
+            'peralatan'      => 'nullable|array',
+            'peralatan.*'    => 'nullable|string|max:255',
+
+            'paket'          => 'nullable|array',
+            'paket.*'        => 'nullable|string|max:255',
+
+            'gambar'         => 'nullable|array',
+            'gambar.*'       => 'nullable|file|mimes:jpg,jpeg,png,webp|max:3048',
+
+            'is_published'   => 'nullable|boolean',
+            ], [
+        // custom message bahasa Indonesia
+        'nama.required' => 'Nama penyedia wajib diisi.',
+        'gambar.*.max'  => 'Setiap gambar maksimal 3MB.',
+        'gambar.*.mimes'=> 'Format gambar harus JPG, JPEG, PNG, atau WEBP.',
+        'maps_url.url'  => 'Format URL Google Maps tidak valid.',
+    
+        ]);
+    }
+
+
+    /* ===========================================================
+       ISI FIELD TEXT
+    =========================================================== */
+    private function fillBaseFields(PenyediaDiving $d, Request $request)
+    {
+        $d->nama         = $request->nama;
+        $d->kontak       = $request->kontak;
+        $d->alamat       = $request->alamat;
+        $d->maps_url     = $request->maps_url;
+        $d->deskripsi    = $request->deskripsi;
+
+        $d->peralatan    = $request->peralatan ?? [];
+        $d->paket        = $request->paket ?? [];
+
+        $d->is_published = $request->boolean('is_published');
+    }
+
+
+    /* ===========================================================
+       UPLOAD GAMBAR
+    =========================================================== */
+    private function processUploads(Request $request, array $existing = []): array
+    {
+        if (!$request->hasFile('gambar')) {
+            return $existing;
+        }
+
+        foreach ($request->file('gambar') as $file) {
+
+            if (!SafeUpload::isRealImage($file)) {
+                throw new \RuntimeException('File gambar tidak valid / berbahaya.');
+            }
+
+            $existing[] = SafeUpload::upload(
+                file: $file,
+                folder: 'uploads/diving',
+                resize: true,
+                optimize: true,
+                maxWidth: 1600,
+                quality: 85
+            );
+        }
+
+        return $existing;
     }
 }

@@ -55,7 +55,7 @@
 
                     {{-- DESCRIPTION --}}
                     <div class="wow fadeInUp" data-wow-delay="0.2s">
-                        <h3 class="mb-4">Deskripsi</h3>
+                        {{-- <h3 class="mb-4">Deskripsi</h3> --}}
 
                         @php
                             $paragraphs = preg_split("/\r\n|\n|\r/", trim($dest->deskripsi));

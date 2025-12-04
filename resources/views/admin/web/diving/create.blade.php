@@ -103,9 +103,9 @@
 
                         {{-- GAMBAR --}}
                         <div class="mb-3">
-                            <label class="form-label">Gambar (bisa beberapa)</label>
+                            <label class="form-label">Gambar ()bisa upload max 5 file)</label>
                             <input type="file" name="gambar[]" class="form-control" multiple accept="image/*">
-                            <small class="text-muted">Max 4MB per file | Format: JPG, PNG, WEBP</small>
+                            <small class=" text-primary">Max 3MB per file | Format: JPG, PNG, WEBP</small>
                         </div>
 
                         {{-- PUBLISH --}}

@@ -186,6 +186,11 @@ class DestinasiController extends Controller
 
         $dest->delete();
 
+        // ==== Tambahkan agar AJAX sukses ====
+        if (request()->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
+
         return redirect()->route('admin.web.destinasi.index')
             ->with('success', 'Destinasi berhasil dihapus.');
     }
@@ -193,7 +198,7 @@ class DestinasiController extends Controller
     /**
      * HAPUS 1 GAMBAR
      */
-    public function hapusGambar(Request $request, $id)
+        public function hapusGambar(Request $request, $id)
     {
         $request->validate([
             'gambar' => 'required|string'
@@ -213,6 +218,12 @@ class DestinasiController extends Controller
             $dest->save();
         }
 
+        // ==== Tambahkan respons JSON ====
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
+
         return back()->with('success', 'Gambar berhasil dihapus.');
     }
+
 }
