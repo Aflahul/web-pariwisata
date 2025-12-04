@@ -47,7 +47,7 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top">
         <i class="bi bi-arrow-up"></i>
     </a>
-     @include('admin.layouts.modal')
+    @include('admin.layouts.modal')
 
     <!-- JS LIBS -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -61,6 +61,28 @@
 
     <!-- GLOBAL JS -->
     <script src="{{ asset('admin/js/global.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            // Pesan sukses
+            @if (session('success'))
+                showAlert("Sukses", "{{ session('success') }}");
+            @endif
+
+            // Pesan error umum
+            @if (session('error'))
+                showAlert("Gagal", "{{ session('error') }}");
+            @endif
+
+            // Pesan validasi (ambil baris pertama)
+            @if ($errors->any())
+                showAlert("Kesalahan",
+                    "{{ $errors->first() }}"
+                );
+            @endif
+
+        });
+    </script>
 
     @stack('scripts')
 </body>

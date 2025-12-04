@@ -12,12 +12,12 @@
             <h4 class="mb-4">Pengaturan Halaman Depan</h4>
 
             {{-- Notifikasi sukses --}}
-            @if (session('success'))
+            {{-- @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
+            @endif --}}
 
             {{-- Notifikasi error --}}
-            @if ($errors->any())
+            {{-- @if ($errors->any())
                 <div class="alert alert-danger">
                     <strong>Terjadi kesalahan:</strong>
                     <ul class="mt-2 mb-0">
@@ -26,7 +26,7 @@
                         @endforeach
                     </ul>
                 </div>
-            @endif
+            @endif --}}
 
             <form action="{{ route('admin.web.frontpage.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf

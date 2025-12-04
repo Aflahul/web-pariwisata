@@ -17,9 +17,9 @@
                 </a>
             </div>
 
-            @if (session('success'))
+            {{-- @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
+            @endif --}}
 
             @if ($data->count() == 0)
                 <div class="text-center py-5">

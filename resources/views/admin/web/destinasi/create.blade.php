@@ -7,7 +7,7 @@
         <div class="bg-light rounded p-4">
             <h4 class="mb-4">Tambah Destinasi</h4>
 
-            @if ($errors->any())
+            {{-- @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul class="mb-0">
                         @foreach ($errors->all() as $err)
@@ -15,7 +15,7 @@
                         @endforeach
                     </ul>
                 </div>
-            @endif
+            @endif --}}
 
             <form action="{{ route('admin.web.destinasi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf

@@ -12,11 +12,11 @@
         <h4 class="mb-4">Informasi Daerah</h4>
 
         {{-- ALERT SUCCESS --}}
-        @if (session('success'))
+        {{-- @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
-        @endif
+        @endif --}}
 
         {{-- FORM --}}
         <form action="{{ route('admin.web.informasi-daerah.update') }}" method="POST" enctype="multipart/form-data">

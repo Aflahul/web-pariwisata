@@ -11,7 +11,7 @@
         <h4 class="mb-4">Edit Destinasi</h4>
 
         {{-- ERROR --}}
-        @if ($errors->any())
+        {{-- @if ($errors->any())
             <div class="alert alert-danger">
                 <ul class="mb-0">
                     @foreach ($errors->all() as $err)
@@ -19,7 +19,7 @@
                     @endforeach
                 </ul>
             </div>
-        @endif
+        @endif --}}
 
         <form action="{{ route('admin.web.destinasi.update', $dest->id) }}"
               method="POST" enctype="multipart/form-data" novalidate>

@@ -11,7 +11,7 @@
 
             <h4 class="mb-4">Edit Item Galeri</h4>
 
-            @if ($errors->any())
+            {{-- @if ($errors->any())
                 <div class="alert alert-danger">
                     <strong>Terjadi kesalahan:</strong>
                     <ul class="mt-2 mb-0">
@@ -20,7 +20,7 @@
                         @endforeach
                     </ul>
                 </div>
-            @endif
+            @endif --}}
 
             <form action="{{ route('admin.web.galeri.update', $galeri->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf

@@ -1,3 +1,15 @@
+/* Fade-in & fade-out */
+.modal.fade .modal-dialog {
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all .25s ease-in-out;
+}
+
+.modal.show .modal-dialog {
+    transform: translateY(0);
+    opacity: 1;
+}
+
 /* Perbaiki container agar lebih lebar di layar besar */
 .container-xxl {
     max-width: 2560px !important; 

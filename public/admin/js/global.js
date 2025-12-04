@@ -89,3 +89,8 @@ document.addEventListener("click", async e => {
     });
 
 });
+// Smooth fade cleanup (optional)
+document.addEventListener('hidden.bs.modal', function (e) {
+    const dlg = e.target.querySelector('.modal-dialog');
+    if (dlg) dlg.style.transform = "translateY(-20px)";
+});

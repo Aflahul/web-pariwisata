@@ -12,7 +12,7 @@
             <h4 class="mb-4">Tambah Penyedia Jasa Menyelam</h4>
 
             {{-- ERROR --}}
-            @if ($errors->any())
+            {{-- @if ($errors->any())
                 <div class="alert alert-danger">
                     <strong>Terjadi kesalahan:</strong>
                     <ul class="mt-2 mb-0">
@@ -21,7 +21,7 @@
                         @endforeach
                     </ul>
                 </div>
-            @endif
+            @endif --}}
 
             <form action="{{ route('admin.web.diving.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf

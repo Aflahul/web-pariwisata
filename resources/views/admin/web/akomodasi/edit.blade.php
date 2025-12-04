@@ -11,7 +11,7 @@
 
         <h4 class="mb-4">Edit Akomodasi</h4>
 
-        @if ($errors->any())
+        {{-- @if ($errors->any())
             <div class="alert alert-danger">
                 <strong>Terjadi Kesalahan:</strong>
                 <ul class="mt-2 mb-0">
@@ -20,7 +20,7 @@
                     @endforeach
                 </ul>
             </div>
-        @endif
+        @endif --}}
 
         <form action="{{ route('admin.web.akomodasi.update', $akom->id) }}"
               method="POST" enctype="multipart/form-data" novalidate>

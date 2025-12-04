@@ -17,9 +17,9 @@
         </div>
 
         {{-- Success Alert --}}
-        @if (session('success'))
+        {{-- @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+        @endif --}}
 
         <div class="table-responsive">
             <table class="table table-hover align-middle">
