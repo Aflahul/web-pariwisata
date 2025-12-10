@@ -109,6 +109,29 @@
                         </div>
                     </div>
                 @endif
+                {{-- @if (auth()->user()->role === 'admin')
+                    <!-- Total Budaya -->
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-white rounded border p-4 d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="mb-2">Data Kebudayaan</p>
+                                <h5 class="mb-0">{{ $totalBudaya }}</h5>
+                            </div>
+                            <i class="fa fa-landmark fa-2x text-warning"></i>
+                        </div>
+                    </div>
+
+                    <!-- Budaya Publish -->
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-white rounded border p-4 d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="mb-2">Kebudayaan Publish</p>
+                                <h5 class="mb-0">{{ $budayaPublished }}</h5>
+                            </div>
+                            <i class="fa fa-check-circle fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                @endif --}}
 
 
             </div>
@@ -144,6 +167,12 @@
                                 Jasa Wisata
                             </button>
                         </li>
+                        {{-- <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="budaya-tab" data-bs-toggle="tab" data-bs-target="#budaya"
+                                type="button">
+                                Kebudayaan
+                            </button>
+                        </li> --}}
 
                     </ul>
 
@@ -163,7 +192,9 @@
                                                 @elseif ($item instanceof \App\Models\Akomodasi)
                                                     <span class="badge bg-success">Akomodasi</span>
                                                 @elseif ($item instanceof \App\Models\PenyediaDiving)
-                                                    <span class="badge bg-warning text-dark">Jasa Wisata</span>
+                                                    <span class="badge bg-info text-dark">Jasa Wisata</span>
+                                                {{-- @elseif ($item instanceof \App\Models\Culture)
+                                                    <span class="badge bg-warning">Kebudayaan</span> --}}
                                                 @endif
 
                                                 <span class="ms-2">{{ $item->nama }}</span>
@@ -225,6 +256,21 @@
                                 <p class="text-muted">Belum ada jasa wisata.</p>
                             @endif
                         </div>
+                        {{-- TAB: BUDAYA --}}
+                        {{-- <div class="tab-pane fade" id="budaya">
+                            @if ($recentBudaya->count())
+                                <ul class="list-group">
+                                    @foreach ($recentbudaya as $item)
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <span>{{ $item->nama }}</span>
+                                            <small class="text-muted">{{ $item->created_at->format('d M Y') }}</small>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <p class="text-muted">Belum ada data kebudayaan.</p>
+                            @endif
+                        </div> --}}
 
                     </div>
                 </div>

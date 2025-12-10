@@ -1,76 +1,70 @@
 @extends('admin.layouts.master')
-
-@section('title', 'Penyedia Jasa Menyelam')
+@section('title', 'Daftar Kebudayaan')
 
 @section('content')
 
-    @php $breadcrumb = 'Penyedia Jasa Menyelam'; @endphp
+    @php $breadcrumb = 'Kebudayaan'; @endphp
 
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded p-4">
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="mb-0">Penyedia Jasa Menyelam</h4>
-                <a href="{{ route('admin.web.diving.create') }}" class="btn btn-primary">
-                    <i class="fa fa-plus me-1"></i> Tambah Penyedia
+            <div class="d-flex justify-content-between mb-4">
+                <h4 class="mb-0">Kebudayaan</h4>
+                <a href="{{ route('admin.web.budaya.create') }}" class="btn btn-primary">
+                    <i class="fa fa-plus me-1"></i> Tambah Budaya
                 </a>
             </div>
-
-            {{-- Success Alert --}}
-            {{-- @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif --}}
 
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
                         <tr>
                             <th>#</th>
-                            <th>Nama</th>
-                            <th>Kontak</th>
-                            <th>Alamat</th>
+                            <th>Judul</th>
+                            <th>Jenis</th>
+                            <th>Lokasi</th>
                             <th>Status</th>
-                            <th width="120px">Aksi</th>
+                            <th width="140">Aksi</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @foreach ($data as $item)
-                            <tr>
+                        @foreach ($data as $d)
+                            <tr class="budaya-row">
                                 <td>{{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}</td>
 
-                                <td class="fw-semibold">{{ $item->nama }}</td>
-
-                                <td>{{ $item->kontak ?? '-' }}</td>
-
-                                <td>
-                                    {{ $item->alamat ?? '-' }}
-
+                                <td class="fw-semibold">
+                                    {{ $d->judul }}
                                 </td>
 
                                 <td>
-                                    @if ($item->is_published)
-                                        <span class="badge bg-success">Dipublikasikan</span>
+                                    {{ ucfirst($d->jenis) }}
+                                </td>
+
+                                <td>
+                                    {{ $d->lokasi ?? '-' }}
+                                </td>
+
+                                <td>
+                                    @if ($d->status)
+                                        <span class="badge bg-success">Publish</span>
                                     @else
                                         <span class="badge bg-secondary">Draft</span>
                                     @endif
                                 </td>
 
                                 <td>
-                                    <a href="{{ route('admin.web.diving.edit', $item->id) }}"
+                                    <a href="{{ route('admin.web.budaya.edit', $d->id) }}"
                                         class="btn btn-sm btn-warning me-1">
                                         <i class="fa fa-edit"></i>
                                     </a>
 
-                                    {{-- Global Delete Button --}}
                                     <button class="btn btn-sm btn-danger btn-delete"
-                                        data-url="{{ route('admin.web.diving.destroy', $item->id) }}"
-                                        data-msg="Hapus penyedia diving ini?" data-remove="tr">
+                                        data-url="{{ route('admin.web.budaya.destroy', $d->id) }}"
+                                        data-msg="Hapus data budaya '{{ $d->judul }}'?" data-remove=".budaya-row">
                                         <i class="fa fa-trash"></i>
                                     </button>
-
                                 </td>
-
                             </tr>
                         @endforeach
                     </tbody>

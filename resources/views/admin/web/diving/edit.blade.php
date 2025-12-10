@@ -50,11 +50,11 @@
                             value="{{ old('alamat', $d->alamat) }}">
                     </div>
 
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label class="form-label">Link Google Maps</label>
                         <input type="url" name="maps_url" class="form-control"
                             value="{{ old('maps_url', $d->maps_url) }}">
-                    </div>
+                    </div> --}}
 
                     <div class="mb-3">
                         <label class="form-label">Deskripsi Lengkap</label>
@@ -68,7 +68,7 @@
 
                     {{-- PERALATAN --}}
                     <div class="mb-3">
-                        <label class="form-label">Peralatan Tersedia</label>
+                        <label class="form-label">Fasilitas</label>
 
                         <div id="peralatan-wrapper">
                             @foreach ($d->peralatan ?? [''] as $p)
@@ -82,13 +82,13 @@
 
                         <button type="button" id="add-peralatan"
                                 class="btn btn-secondary btn-sm mt-2">
-                            + Tambah Peralatan
+                            + Tambah Fasilitas
                         </button>
                     </div>
 
                     {{-- PAKET --}}
                     <div class="mb-3">
-                        <label class="form-label">Paket Diving</label>
+                        <label class="form-label">Paket Wisata</label>
 
                         <div id="paket-wrapper">
                             @foreach ($d->paket ?? [''] as $p)

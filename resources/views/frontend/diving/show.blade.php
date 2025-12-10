@@ -114,11 +114,12 @@
                             </div>
                         @endif
 
-                        @if ($diving->maps_url)
+                        @if ($diving->alamat)
                             <div class="mt-3">
                                 <h5 class="mb-2">Lokasi</h5>
-                                <iframe src="{{ $diving->maps_url }}" width="100%" height="250" style="border:0;"
-                                    allowfullscreen="" loading="lazy">
+                                <iframe src="https://www.google.com/maps?q={{ urlencode($diving->alamat) }}&output=embed"
+                                    class="rounded" width="100%" height="250" style="border:0;" allowfullscreen
+                                    loading="lazy">
                                 </iframe>
                             </div>
                         @endif

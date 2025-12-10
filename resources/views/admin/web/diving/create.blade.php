@@ -50,11 +50,11 @@
                         </div>
 
                         {{-- GOOGLE MAPS --}}
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label class="form-label">Link Google Maps (opsional)</label>
                             <input type="url" name="maps_url" class="form-control"
                                 placeholder="https://maps.app.goo.gl/..." value="{{ old('maps_url') }}">
-                        </div>
+                        </div> --}}
 
                         {{-- DESKRIPSI --}}
                         <div class="mb-3">
@@ -69,7 +69,7 @@
 
                         {{-- PERALATAN --}}
                         <div class="mb-3">
-                            <label class="form-label">Peralatan Tersedia</label>
+                            <label class="form-label">Fasilitas</label>
 
                             <div id="peralatan-wrapper">
                                 <div class="input-group mb-2 peralatan-item">
@@ -80,13 +80,13 @@
                             </div>
 
                             <button type="button" id="add-peralatan" class="btn btn-secondary btn-sm mt-2">
-                                + Tambah Peralatan
+                                + Tambah Fasilitas
                             </button>
                         </div>
 
                         {{-- PAKET DIVE --}}
                         <div class="mb-3">
-                            <label class="form-label">Paket Menyelam</label>
+                            <label class="form-label">Paket Wisata</label>
 
                             <div id="paket-wrapper">
                                 <div class="input-group mb-2 paket-item">

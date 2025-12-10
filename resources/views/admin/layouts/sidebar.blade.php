@@ -68,6 +68,11 @@
                     class="nav-item nav-link ms-4 {{ request()->routeIs('admin.web.diving.*') ? 'active' : '' }}">
                     <i class="fa fa-swimmer me-2"></i> Jasa Wisata
                 </a>
+                {{-- Budaya --}}
+                {{-- <a href="{{ route('admin.web.budaya.index') }}"
+                    class="nav-item nav-link ms-4 {{ request()->routeIs('admin.web.budaya.*') ? 'active' : '' }}">
+                    <i class="fa fa-landmark me-2"></i> Kebudayaan
+                </a> --}}
 
                 {{-- Galeri Daerah --}}
                 {{-- <a href="{{ route('admin.web.galeri.index') }}"

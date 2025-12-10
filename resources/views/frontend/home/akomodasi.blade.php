@@ -20,7 +20,7 @@
                         <div class="training-item">
 
                             {{-- FOTO --}}
-                            <div class="training-inner">
+                            <div class="training-img">
                                 <img src="{{ image_path($akom->images[0] ?? null) }}" alt="{{ $akom->nama }}"
                                     class="img-fluid w-100 rounded">
 

@@ -48,11 +48,11 @@
                                value="{{ old('lokasi', $dest->lokasi) }}" />
                     </div>
 
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label class="form-label">Link Google Maps (Opsional)</label>
                         <input type="url" name="maps_url" class="form-control"
                                value="{{ old('maps_url', $dest->maps_url) }}" />
-                    </div>
+                    </div> --}}
 
                     <div class="mb-3">
                         <label class="form-label">Ringkasan (Excerpt)</label>

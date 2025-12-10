@@ -1,7 +1,7 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'Destinasi Wisata Supiori')
-@section('meta_description', 'Daftar lengkap destinasi wisata di Kabupaten Supiori.')
+@section('title', 'Budaya Kabupaten Supiori')
+@section('meta_description', 'Kumpulan tradisi, adat, tarian, kerajinan dan warisan budaya di Kabupaten Supiori.')
 
 @section('content')
 
@@ -14,11 +14,11 @@
             background-position: center;">
         <div class="section-title text-center z-50 wow fadeInUp" data-wow-delay="0.1s">
             <div class="sub-style pt-4">
-                <h5 class="sub-title text-light px-3">Destinasi Wisata</h5>
+                <h5 class="sub-title text-light px-3">Budaya Supiori</h5>
             </div>
-            <h1 class="display-4 text-light">Temukan Keindahan Wisata Supiori</h1>
+            <h1 class="display-4 text-light">Warisan Tradisi dan Identitas Supiori</h1>
             <p class="text-light fw-semibold mb-0">
-                Jelajahi destinasi alam dan budaya terbaik di Kabupaten Supiori.
+                Mengenal kekayaan budaya, adat, dan karya masyarakat Supiori.
             </p>
         </div>
     </div>
@@ -30,12 +30,12 @@
             {{-- CEK DATA --}}
             @if ($data->count() == 0)
                 <div class="text-center py-5">
-                    <h5 class="text-muted">Belum ada destinasi yang tersedia.</h5>
+                    <h5 class="text-muted">Belum ada data budaya tersedia.</h5>
                 </div>
             @else
                 <div class="row g-4 justify-content-center">
 
-                    @foreach ($data as $dest)
+                    @foreach ($data as $b)
                         <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="{{ $loop->iteration * 0.2 }}s">
 
                             <div class="service-item">
@@ -43,21 +43,21 @@
 
                                     {{-- FOTO --}}
                                     <div class="service-img">
-                                        <img src="{{ image_path($dest->gambar[0] ?? null) }}"
-                                            class="img-fluid w-100 rounded" alt="{{ $dest->nama }}">
+                                        <img src="{{ image_path($b->gambar) }}" class="img-fluid w-100 rounded"
+                                            alt="{{ $b->judul }}">
                                     </div>
 
                                     {{-- TITLE --}}
                                     <div class="service-title">
                                         <div class="service-title-name">
                                             <div class="bg-primary text-center rounded p-3 mx-5 mb-4">
-                                                <a href="{{ route('front.destinasi.show', $dest->slug) }}"
+                                                <a href="{{ route('front.budaya.show', $b->slug) }}"
                                                     class="h4 text-white mb-0">
-                                                    {{ $dest->nama }}
+                                                    {{ $b->judul }}
                                                 </a>
                                             </div>
 
-                                            <a href="{{ route('front.destinasi.show', $dest->slug) }}"
+                                            <a href="{{ route('front.budaya.show', $b->slug) }}"
                                                 class="btn bg-light text-secondary rounded-pill py-3 px-5 mb-4">
                                                 Lihat Detail
                                             </a>
@@ -67,10 +67,10 @@
                                         <div class="service-content pb-4">
                                             <div class="px-4">
                                                 <p class="mb-4">
-                                                    {{ $dest->excerpt ?: Str::limit(strip_tags($dest->deskripsi), 120) }}
+                                                    {{ Str::limit(strip_tags($b->ringkasan), 120) }}
                                                 </p>
 
-                                                <a href="{{ route('front.destinasi.show', $dest->slug) }}"
+                                                <a href="{{ route('front.budaya.show', $b->slug) }}"
                                                     class="btn btn-primary rounded-pill text-white py-3 px-5">
                                                     Lihat Detail
                                                 </a>
@@ -85,6 +85,11 @@
                         </div>
                     @endforeach
 
+                </div>
+
+                {{-- PAGINATION --}}
+                <div class="mt-5">
+                    {{ $data->links() }}
                 </div>
 
             @endif

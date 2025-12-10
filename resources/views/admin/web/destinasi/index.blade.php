@@ -42,11 +42,9 @@
                             <td>{{ $d->kategori }}</td>
 
                             <td>
-                                @if ($d->maps_url)
-                                    <a href="{{ $d->maps_url }}" target="_blank">Lihat</a>
-                                @else
+                                
                                     {{ $d->lokasi }}
-                                @endif
+                                
                             </td>
 
                             <td>

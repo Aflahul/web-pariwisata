@@ -31,7 +31,6 @@
 
     <!-- Main CSS -->
     <link href="{{ asset('frontend/css/style.css') }}" rel="stylesheet">
-
     @stack('styles')
 </head>
 
@@ -64,8 +63,22 @@
     <script src="{{ asset('frontend/lib/waypoints/waypoints.min.js') }}"></script>
     <script src="{{ asset('frontend/lib/counterup/counterup.min.js') }}"></script>
     <script src="{{ asset('frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const heroCarousel = document.querySelector("#carouselHome");
+            if (!heroCarousel) {
+                // Nonaktifkan otomatis inisiasi carousel dari Bootstrap untuk halaman tanpa slider
+                const carousels = document.querySelectorAll(".carousel");
+                carousels.forEach(c => {
+                    const bsCarousel = bootstrap.Carousel.getInstance(c);
+                    if (bsCarousel) bsCarousel.pause();
+                });
+            }
+        });
+    </script>
 
     <script src="{{ asset('frontend/js/main.js') }}"></script>
+
     <script>
         document.addEventListener("scroll", () => {
             const nav = document.querySelector(".navbar");

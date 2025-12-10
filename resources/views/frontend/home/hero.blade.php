@@ -2,16 +2,30 @@
 <div class="carousel-header p-0">
     <div id="carouselHome" class="carousel slide" data-bs-ride="carousel">
 
-        {{-- Indicator --}}
-        @if ($sliderItems->count() > 1)
-            <ol class="carousel-indicators">
-                @foreach ($sliderItems as $item)
-                    <li data-bs-target="#carouselHome" data-bs-slide-to="{{ $loop->index }}"
-                        class="{{ $loop->first ? 'active' : '' }}">
-                    </li>
-                @endforeach
-            </ol>
+        @php
+            // Hitung total slide aktual
+            $totalSlides = 0;
+
+            // Jika ada hero image → tambah 1
+            if ($fp && $fp->hero_image) {
+                $totalSlides++;
+            }
+
+            // Tambah jumlah destinasi slider
+            $totalSlides += $sliderItems->count();
+        @endphp
+
+        @if ($totalSlides > 1)
+            <div class="carousel-indicators">
+                @for ($i = 0; $i < $totalSlides; $i++)
+                    <button type="button" data-bs-target="#carouselHome" data-bs-slide-to="{{ $i }}"
+                        class="{{ $i === 0 ? 'active' : '' }}">
+                    </button>
+                @endfor
+            </div>
         @endif
+
+
 
         {{-- Carousel items --}}
         <div class="carousel-inner" role="listbox">
@@ -54,7 +68,7 @@
 
                             @if ($item->excerpt)
                                 <p class="text-white mb-4 mb-md-5 fs-5">
-                                    {!! nl2br(e( $item->excerpt) ) !!}
+                                    {!! nl2br(e($item->excerpt)) !!}
                                 </p>
                             @endif
 

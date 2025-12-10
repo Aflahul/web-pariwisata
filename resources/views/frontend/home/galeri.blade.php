@@ -24,7 +24,7 @@
                         <div class="country-item">
 
                             {{-- FOTO --}}
-                            <div class="rounded overflow-hidden">
+                            <div class="rounded country-img overflow-hidden">
                                 <img src="{{ image_path($item['src']) }}" class="img-fluid w-100 rounded"
                                     alt="{{ $item['title'] ?? 'foto' }}">
                             </div>

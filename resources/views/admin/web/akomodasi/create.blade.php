@@ -53,11 +53,11 @@
                         <input type="text" name="price_range" class="form-control" value="{{ old('price_range') }}" placeholder="300K - 600K / malam">
                     </div>
 
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label class="form-label">Link Google Maps (optional)</label>
                         <input type="url" name="maps_url" class="form-control" value="{{ old('maps_url') }}"
                             placeholder="https://maps.app.goo.gl/...">
-                    </div>
+                    </div> --}}
 
                     <div class="mb-3">
                         <label class="form-label">Ringkasan (Excerpt)</label>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Frontend\{
     HomeController,
     InfoController,
     DestinasiController,
+    CultureController as FrontCulture,
     AkomodasiController,
     DivingController,
     GaleriController,
@@ -33,6 +34,10 @@ Route::get('/tentang', [InfoController::class, 'index'])
     ->name('front.info.index');
 Route::get('/diving/{slug}', [DivingController::class, 'show'])
     ->name('front.diving.show');
+Route::get('/budaya', [FrontCulture::class, 'index'])
+    ->name('front.budaya.index');
+Route::get('/budaya/{slug}', [FrontCulture::class, 'show'])
+    ->name('front.budaya.show');
 Route::get('/galeri', [GaleriController::class, 'index'])
     ->name('front.galeri.index');
 // kalau mau detail galeri:

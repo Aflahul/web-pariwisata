@@ -53,25 +53,6 @@
                         </div>
                     @endif
 
-                    {{-- DESCRIPTION --}}
-                    <div class="wow fadeInUp" data-wow-delay="0.2s">
-                        {{-- <h3 class="mb-4">Deskripsi</h3> --}}
-
-                        @php
-                            $paragraphs = preg_split("/\r\n|\n|\r/", trim($dest->deskripsi));
-                        @endphp
-
-                        <div class="text-dark content-format">
-                            @foreach ($paragraphs as $p)
-                                @if (trim($p) !== '')
-                                    <p>{{ $p }}</p>
-                                @else
-                                    <br>
-                                @endif
-                            @endforeach
-                        </div>
-                    </div>
-
                 </div>
 
                 {{-- RIGHT SIDEBAR --}}
@@ -82,29 +63,47 @@
                         <h4 class="mb-3 text-primary">Informasi Detail</h4>
 
                         @if ($dest->lokasi)
-                            <p class="mb-2">
+                            <p class="mb-2 d-flex align-items-start">
                                 <i class="fa fa-map-marker-alt me-2 text-secondary"></i>
-                                {{ $dest->lokasi }}
+                                <span>{{ $dest->lokasi }}</span>
                             </p>
                         @endif
 
                         @if ($dest->kategori)
-                            <p class="mb-2">
+                            <p class="mb-2 d-flex align-items-start">
                                 <i class="fa fa-tag me-2 text-secondary"></i>
-                                {{ $dest->kategori }}
+                                <span>{{ $dest->kategori }}</span>
                             </p>
                         @endif
 
-                        {{-- MAPS --}}
-                        @if ($dest->maps_url)
-                            <div class="mt-3">
+                        @if ($dest->lokasi)
+                            <div class="mt-3 ">
                                 <h5 class="mb-2">Lokasi</h5>
-                                <iframe src="{{ $dest->maps_url }}" width="100%" height="250" style="border:0;"
-                                    allowfullscreen="" loading="lazy">
+
+                                <iframe src="https://www.google.com/maps?q={{ urlencode($dest->lokasi) }}&output=embed"
+                                    class="rounded" width="100%" height="250" style="border:0;" allowfullscreen
+                                    loading="lazy">
                                 </iframe>
                             </div>
                         @endif
+                        {{-- DESCRIPTION --}}
+                        <div class="wow fadeInUp" data-wow-delay="0.2s">
+                            {{-- <h3 class="mb-4">Deskripsi</h3> --}}
 
+                            @php
+                                $paragraphs = preg_split("/\r\n|\n|\r/", trim($dest->deskripsi));
+                            @endphp
+
+                            <div class="text-dark content-format">
+                                @foreach ($paragraphs as $p)
+                                    @if (trim($p) !== '')
+                                        <p>{{ $p }}</p>
+                                    @else
+                                        <br>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
 
                 </div>

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\Galeri;
+use App\Models\Culture;
 use App\Models\Akomodasi;
 use App\Models\Destinasi;
 use App\Models\PenyediaDiving;
 use App\Models\InformasiDaerah;
 use App\Models\FrontpageSetting;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -29,7 +30,16 @@ class HomeController extends Controller
 
 
         // Destinasi unggulan
-        $unggulan = Destinasi::where('unggulan', 1)->get();
+        $unggulan = Destinasi::where('unggulan', 1)
+            ->latest()
+            ->limit(6)
+            ->get();
+
+        // Budaya terbaru
+        $budaya = Culture::where('status', 1)
+            ->latest()
+            ->limit(6)
+            ->get();
 
 
         // Akomodasi rekomendasi
@@ -41,7 +51,7 @@ class HomeController extends Controller
         // Diving rekomendasi
         $diving = PenyediaDiving::where('is_published', 1)
             ->latest()
-            ->limit(3)
+            ->limit(4)
             ->get();
 
         $galeri = new Collection();
@@ -91,7 +101,8 @@ class HomeController extends Controller
             'akomodasi',
             'diving',
             'info',
-            'galeri'
+            'galeri',    
+            'budaya'
         ));
     }
 }

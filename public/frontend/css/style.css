@@ -567,6 +567,19 @@
 .service .service-item:hover .service-inner .service-img img {
     transform: scale(1.3);
 }
+.service-img {
+    width: 100%;
+    height: 250px; /* atur sesuai kebutuhan */
+    overflow: hidden;
+}
+
+.service-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* kunci utama */
+    object-position: center;
+}
+
 /*** Service End ***/
 
 /*** Features Start ***/
@@ -620,6 +633,7 @@
     transform: rotate(360deg);
     transition: all 0.5s ease;
 }
+
 /*** Features End ***/
 
 /*** Country Start ***/
@@ -805,6 +819,18 @@
 .training .training-item:hover .training-content {
     bottom: 0;
 }
+.training-img {
+    width: 100%;
+    height: 250px; /* atur sesuai kebutuhan */
+    overflow: hidden;
+}
+
+.training-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* kunci utama */
+    object-position: center;
+}
 /*** training End ***/
 
 /*** Contact Start ***/
@@ -845,6 +871,30 @@
 
 .contact .office .office-item .office-content a.text-secondary:hover {
     color: var(--bs-primary) !important;
+}
+.contact-img {
+    width: 100%;
+    height: 250px; /* atur sesuai kebutuhan */
+    overflow: hidden;
+}
+
+.contact-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* kunci utama */
+    object-position: center;
+}
+.country-img {
+    width: 100%;
+    height: 250px; /* atur sesuai kebutuhan */
+    overflow: hidden;
+}
+
+.country-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* kunci utama */
+    object-position: center;
 }
 /*** Contact End ***/
 

@@ -41,7 +41,7 @@ class FrontpageController extends Controller
         'guide3_title'  => 'nullable|string|max:255',
         'guide3_text'   => 'nullable|string',
 
-        'slider'        => 'nullable|array',
+        'slider'        => 'nullable|array|max:3',
 
         'contact_address' => 'nullable|string|max:255',
         'contact_phone'   => 'nullable|string|max:255',

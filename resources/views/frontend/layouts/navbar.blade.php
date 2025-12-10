@@ -31,6 +31,7 @@
 
                 <a href="{{ route('front.home') }}" class="nav-item nav-link">Beranda</a>
                 <a href="{{ route('front.destinasi.index') }}" class="nav-item nav-link">Destinasi</a>
+                {{-- <a href="{{ route('front.budaya.index') }}" class="nav-item nav-link">Kebudayaan</a> --}}
                 <a href="{{ route('front.akomodasi.index') }}" class="nav-item nav-link">Akomodasi</a>
                 <a href="{{ route('front.diving.index') }}" class="nav-item nav-link">Jasa Wisata</a>
                 <a href="{{ route('front.info.index') }}" class="nav-item nav-link">Tentang</a>

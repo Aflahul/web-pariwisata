@@ -36,12 +36,10 @@
                             <label class="form-label">Lokasi (teks)</label>
                             <input type="text" name="lokasi" class="form-control" value="{{ old('lokasi') }}">
                         </div>
-
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label class="form-label">Link Google Maps (opsional)</label>
                             <input type="url" name="maps_url" class="form-control" value="{{ old('maps_url') }}">
-                        </div>
-
+                        </div> --}}
                         <div class="mb-3">
                             <label class="form-label">Ringkasan (excerpt)</label>
                             <textarea name="excerpt" class="form-control" rows="3">{{ old('excerpt') }}</textarea>

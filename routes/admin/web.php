@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\FrontpageController;
 use App\Http\Controllers\Admin\KontakResmiController;
 use App\Http\Controllers\Admin\PenyediaDivingController;
 use App\Http\Controllers\Admin\InformasiDaerahController;
+use App\Http\Controllers\Admin\CultureController;
+
 
 Route::prefix('admin')->group(function () {
 
@@ -86,6 +88,13 @@ Route::prefix('admin')->group(function () {
         Route::delete('/web-management/diving/gambar/{id}',
             [PenyediaDivingController::class, 'hapusGambar'])
             ->name('admin.web.diving.hapus-gambar');
+        // ===========================
+        // PENYEDIA budaya
+        // ===========================      
+        Route::resource('/web-management/budaya', CultureController::class, [
+           'as' => 'admin.web'
+        ]);
+
 
         // ===========================
         // GALERI

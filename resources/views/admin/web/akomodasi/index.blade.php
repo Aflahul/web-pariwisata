@@ -43,13 +43,9 @@
                                 <td>{{ $item->tipe ?? '-' }}</td>
 
                                 <td>
-                                    @if ($item->maps_url)
-                                        <a href="{{ $item->maps_url }}" target="_blank" rel="noopener noreferrer">
-                                            {{ $item->alamat ?? 'Lihat Maps' }}
-                                        </a>
-                                    @else
+                                    
                                         {{ $item->alamat ?? '-' }}
-                                    @endif
+                                    
                                 </td>
 
                                 <td>

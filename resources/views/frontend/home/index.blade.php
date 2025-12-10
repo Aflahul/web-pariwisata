@@ -16,13 +16,15 @@
     
     {{-- DESTINASI WISATA --}}
     @include('frontend.home.destinasi')
+    {{-- Kebudayaan --}}
+    {{-- @include('frontend.home.budaya') --}}
 
     {{-- AKOMODASI REKOMENDASI --}}
     @include('frontend.home.akomodasi')
     {{-- PENYEDIA JASA --}}
     @include('frontend.home.diving')
     {{-- GALERI --}}
-    {{-- @include('frontend.home.galeri') --}}
+    @include('frontend.home.galeri')
 
 
 @endsection

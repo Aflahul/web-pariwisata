@@ -118,11 +118,12 @@
                         @endif
 
                         {{-- MAPS --}}
-                        @if ($data->maps_url)
+                        @if ($data->alamat)
                             <div class="mt-3">
                                 <h5>Lokasi</h5>
-                                <iframe src="{{ $data->maps_url }}" width="100%" height="250" style="border:0;"
-                                    allowfullscreen="" loading="lazy">
+                                <iframe src="https://www.google.com/maps?q={{ urlencode($data->alamat) }}&output=embed"
+                                    class="rounded" width="100%" height="250" style="border:0;" allowfullscreen
+                                    loading="lazy">
                                 </iframe>
                             </div>
                         @endif

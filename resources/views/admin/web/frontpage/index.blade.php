@@ -35,7 +35,8 @@
                 <ul class="nav nav-tabs" id="frontpageTabs" role="tablist">
                     <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tabHero">Hero</a></li>
                     {{-- <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabWelcome">Welcome</a></li> --}}
-                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabGuide">Daya Tarik Wilayah</a></li>
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabGuide">Daya Tarik Wilayah</a>
+                    </li>
                     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabSlider">Slider Destinasi</a>
                     </li>
                     {{-- <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabFooter">Kontak Footer</a></li> --}}
@@ -131,7 +132,9 @@
                     {{-- TAB SLIDER --}}
                     <div class="tab-pane fade" id="tabSlider">
                         <h5 class="mb-3">Slider Destinasi Unggulan</h5>
-                        <p class="text-muted">Pilih destinasi yang ingin ditampilkan sebagai slider di halaman utama.</p>
+                        <p class="text-muted">Pilih destinasi yang ingin ditampilkan sebagai slider di halaman utama. <br>
+                        <span class="text-info">Maskimal bisa pilih 3 Destinasi Unggulan</span>
+                        </p>
 
                         @foreach ($destinasi as $d)
                             <div class="form-check mb-2">
@@ -146,6 +149,32 @@
                                 </label>
                             </div>
                         @endforeach
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+
+                                const boxes = document.querySelectorAll('input[name="slider[]"]');
+                                const limit = 3;
+
+                                boxes.forEach(box => {
+                                    box.addEventListener('change', function() {
+
+                                        let checked = document.querySelectorAll('input[name="slider[]"]:checked')
+                                        .length;
+
+                                        if (checked > limit) {
+                                            this.checked = false;
+
+                                            // Pakai modal global dari global.js
+                                            showAlert("Peringatan", "Maksimal Bisa Pilih 3 Destinasi Unggulan.");
+                                        }
+
+                                    });
+                                });
+
+                            });
+                        </script>
+
+
                     </div>
 
 
