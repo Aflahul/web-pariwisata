@@ -61,8 +61,9 @@
             </div>
 
             {{-- PAGINATION --}}
-            <div class="mt-4">
-                {{ $items->links() }}
+
+            <div class="mt-4 d-flex justify-content-center">
+                {{ $items->links('pagination::bootstrap-5') }}
             </div>
 
         </div>

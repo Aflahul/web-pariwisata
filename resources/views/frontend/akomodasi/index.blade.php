@@ -30,55 +30,54 @@
     {{-- LISTING --}}
     <div class="container-fluid training overflow-hidden py-5">
         <div class="container">
-
             <div class="row g-4 justify-content-center">
-
                 @forelse ($data as $akom)
-                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="{{ $loop->iteration * 0.15 }}s">
-
+                    <div class="col-md-6 col-lg-4 m-b-2 wow fadeInUp" data-wow-delay="{{ $loop->iteration * 0.2 }}s">
                         <div class="training-item">
 
-                            {{-- IMAGE --}}
+                            {{-- FOTO --}}
                             <div class="training-img">
-                                <img src="{{ image_path($akom->images[0] ?? null) }}"
-                                     alt="{{ $akom->nama }}"
-                                     class="img-fluid w-100 rounded">
+                                <img src="{{ image_path($akom->images[0] ?? null) }}" alt="{{ $akom->nama }}"
+                                    class="img-fluid w-100 rounded">
 
                                 <div class="training-title-name">
-                                    <span class="h4 text-white mb-0">{{ $akom->nama }}</span>
-                                    <span class="h4 text-white mb-0">{{ $akom->tipe ?: 'Akomodasi' }}</span>
+                                    <h4 class="text-white mb-0">{{ $akom->nama }}</h4>
+                                    <span class="text-white-50 small">
+                                        {{ $akom->tipe ?: 'Akomodasi' }}
+                                    </span>
                                 </div>
                             </div>
 
-                            {{-- CONTENT --}}
+                            {{-- CARD CONTENT --}}
                             <div class="training-content bg-secondary rounded-bottom p-4">
-
-                                <h4 class="text-white mb-2">{{ $akom->nama }}</h4>
+                                <h5 class="text-white">{{ $akom->nama }}</h5>
 
                                 @if ($akom->price_range)
-                                    <p class="text-white-50 mb-3">
-                                        Harga: {{ $akom->price_range }}
+                                    <p class="text-white-50 mb-2">
+                                        <i class="fa fa-tag me-1"></i> {{ $akom->price_range }}
                                     </p>
                                 @endif
 
                                 <a href="{{ route('front.akomodasi.show', $akom->slug) }}"
-                                   class="btn btn-secondary rounded-pill text-white p-0 px-3 py-1">
+                                    class="btn btn-light rounded-pill px-4 py-2 mt-2">
                                     Lihat Detail <i class="fa fa-arrow-right ms-1"></i>
                                 </a>
-
                             </div>
 
                         </div>
-
                     </div>
-
                 @empty
                     <div class="col-12 text-center py-5">
                         <h5 class="text-muted">Belum ada data akomodasi.</h5>
                     </div>
                 @endforelse
-
             </div>
+
+            {{-- PAGINATION --}}
+            <div class="mt-4 d-flex justify-content-center">
+                {{ $data->links('pagination::bootstrap-5') }}
+            </div>
+
 
         </div>
     </div>

@@ -10,13 +10,11 @@ class DestinasiController extends Controller
     /**
      * LISTING DESTINASI
      */
-    public function index()
-    {
-        $data = Destinasi::orderBy('nama')
-            ->paginate(9);
-
-        return view('frontend.destinasi.index', compact('data'));
-    }
+   public function index()
+{
+    $data = Destinasi::latest()->paginate(9);
+    return view('frontend.destinasi.index', compact('data'));
+}
 
     /**
      * DETAIL DESTINASI

@@ -33,7 +33,7 @@
                     <h5 class="text-muted">Belum ada destinasi yang tersedia.</h5>
                 </div>
             @else
-                <div class="row g-4 justify-content-center">
+                <div class="row g-4 mb-2 justify-content-center">
 
                     @foreach ($data as $dest)
                         <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="{{ $loop->iteration * 0.2 }}s">
@@ -85,6 +85,9 @@
                         </div>
                     @endforeach
 
+                </div>
+                <div class="mt-4 d-flex justify-content-center">
+                    {{ $data->links('pagination::bootstrap-5') }}
                 </div>
 
             @endif
