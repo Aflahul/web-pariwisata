@@ -1,59 +1,339 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🌿 Website Pariwisata
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem informasi pariwisata berbasis web dibangun menggunakan **Laravel 12**, **Bootstrap 5**, dan **MySQL**. Mengikuti arsitektur **MVC (Model View Controller)**.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Daftar Isi
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- [Gambaran Umum](#-gambaran-umum)
+- [Tujuan Sistem](#-tujuan-sistem)
+- [Arsitektur Sistem](#-arsitektur-sistem)
+- [Modul Sistem](#-modul-sistem)
+- [Struktur Database](#-struktur-database)
+- [Alur Sistem](#-alur-sistem)
+- [Halaman Website](#-halaman-website)
+- [Keamanan Sistem](#-keamanan-sistem)
+- [Instalasi](#-instalasi)
+- [Teknologi](#-teknologi)
+- [Pengembangan Selanjutnya](#-pengembangan-selanjutnya)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 📌 Gambaran Umum
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Website Pariwisata adalah sistem informasi berbasis web yang digunakan untuk:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Menampilkan informasi destinasi wisata
+- Menampilkan berita dan event pariwisata
+- Menyediakan galeri foto wisata
+- Memberikan informasi lokasi dan deskripsi tempat wisata
+- Memudahkan admin mengelola data wisata
 
-## Laravel Sponsors
+### Tech Stack
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Komponen | Teknologi |
+|---|---|
+| Backend | Laravel 12 |
+| Frontend | HTML5, Bootstrap 5 |
+| Database | MySQL |
+| Asset Builder | NPM / Vite |
+| Editor | Visual Studio Code |
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🎯 Tujuan Sistem
 
-## Contributing
+1. Menyediakan informasi wisata secara terpusat
+2. Mempromosikan destinasi wisata daerah
+3. Mempermudah pengelolaan data wisata oleh admin
+4. Meningkatkan kunjungan wisata melalui media digital
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 🏗️ Arsitektur Sistem
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
+app
+ ├── Models
+ ├── Http
+ │    ├── Controllers
+ │    └── Middleware
+ └── Providers
 
-## Security Vulnerabilities
+database
+ ├── migrations
+ └── seeders
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+resources
+ ├── views
+ ├── css
+ └── js
 
-## License
+routes
+ └── web.php
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Folder | Fungsi |
+|---|---|
+| `app/Models` | Menyimpan model database |
+| `app/Http/Controllers` | Logika aplikasi |
+| `resources/views` | Tampilan Blade |
+| `database/migrations` | Struktur tabel |
+| `routes/web.php` | Routing website |
+
+---
+
+## 📦 Modul Sistem
+
+### 4.1 Modul Destinasi Wisata
+
+**Fungsi:**
+- Menampilkan daftar tempat wisata
+- Menampilkan detail wisata
+- Menampilkan foto wisata
+- Menampilkan lokasi
+
+**Struktur data:**
+
+| Field | Tipe |
+|---|---|
+| id | bigint |
+| nama_wisata | varchar |
+| deskripsi | text |
+| lokasi | varchar |
+| latitude | decimal |
+| longitude | decimal |
+| foto | varchar |
+
+---
+
+### 4.2 Modul Berita Wisata
+
+**Fungsi:**
+- Menampilkan berita terbaru
+- Promosi event wisata
+- Artikel wisata
+
+**Struktur data:**
+
+| Field | Tipe |
+|---|---|
+| id | bigint |
+| judul | varchar |
+| slug | varchar |
+| isi | text |
+| gambar | varchar |
+| tanggal | date |
+
+---
+
+### 4.3 Modul Galeri
+
+**Fungsi:**
+- Menampilkan foto wisata
+- Dokumentasi kegiatan wisata
+
+**Struktur data:**
+
+| Field | Tipe |
+|---|---|
+| id | bigint |
+| judul | varchar |
+| foto | varchar |
+| deskripsi | text |
+
+---
+
+### 4.4 Modul Event Wisata
+
+**Fungsi:**
+- Menampilkan agenda wisata
+- Jadwal festival daerah
+
+**Struktur data:**
+
+| Field | Tipe |
+|---|---|
+| id | bigint |
+| nama_event | varchar |
+| tanggal | date |
+| lokasi | varchar |
+| deskripsi | text |
+
+---
+
+### 4.5 Modul Admin Panel
+
+**Admin dapat:**
+- Menambah destinasi wisata
+- Mengedit destinasi wisata
+- Menghapus data wisata
+- Mengelola berita
+- Mengelola galeri
+- Mengelola event
+
+**Fitur keamanan:**
+- Login admin
+- Middleware auth
+- Validasi input
+- Proteksi CSRF
+
+---
+
+## 🗄️ Struktur Database
+
+**Tabel `wisata`**
+
+```
+id
+nama_wisata
+deskripsi
+lokasi
+latitude
+longitude
+foto
+created_at
+updated_at
+```
+
+**Tabel `berita`**
+
+```
+id
+judul
+slug
+isi
+gambar
+tanggal
+created_at
+updated_at
+```
+
+**Tabel `galeri`**
+
+```
+id
+judul
+foto
+deskripsi
+created_at
+updated_at
+```
+
+---
+
+## 🔄 Alur Sistem
+
+**Alur Pengguna**
+
+```
+Pengguna buka website
+      ↓
+Sistem tampilkan halaman utama
+      ↓
+Pengguna pilih destinasi wisata
+      ↓
+Sistem tampilkan detail wisata
+```
+
+**Alur Admin**
+
+```
+Admin login
+      ↓
+Admin masuk dashboard
+      ↓
+Admin tambah / edit data wisata
+      ↓
+Data tersimpan di database
+```
+
+---
+
+## 🖥️ Halaman Website
+
+| Halaman | Fungsi |
+|---|---|
+| Home | Halaman utama |
+| Destinasi | Daftar wisata |
+| Detail Wisata | Informasi wisata |
+| Berita | Artikel wisata |
+| Galeri | Foto wisata |
+| Event | Agenda wisata |
+| Kontak | Informasi kontak |
+
+---
+
+## 🔐 Keamanan Sistem
+
+- Laravel CSRF Protection
+- Validasi input
+- Authentication Laravel
+- Middleware Auth
+- File upload validation
+- Sanitasi data
+
+---
+
+## ⚙️ Instalasi
+
+**1. Clone repository**
+
+```bash
+git clone repository-url
+```
+
+**2. Install dependency**
+
+```bash
+composer install
+npm install
+```
+
+**3. Konfigurasi environment**
+
+```bash
+cp .env.example .env
+```
+
+**4. Generate key**
+
+```bash
+php artisan key:generate
+```
+
+**5. Migrate database**
+
+```bash
+php artisan migrate
+```
+
+**6. Jalankan server**
+
+```bash
+php artisan serve
+```
+
+---
+
+## 🛠️ Teknologi
+
+| Teknologi | Fungsi |
+|---|---|
+| Laravel | Backend framework |
+| Bootstrap 5 | UI framework |
+| MySQL | Database |
+| Vite | Build asset |
+| Blade | Template engine |
+
+---
+
+## 🚀 Pengembangan Selanjutnya
+
+- [ ] Peta wisata menggunakan Google Maps
+- [ ] Sistem rating wisata
+- [ ] Sistem komentar
+- [ ] Booking tiket wisata
+- [ ] API pariwisata
+- [ ] Dashboard statistik pengunjung
