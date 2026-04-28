@@ -1,0 +1,79 @@
+/* Fade-in & fade-out */
+.modal.fade .modal-dialog {
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all .25s ease-in-out;
+}
+
+.modal.show .modal-dialog {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Perbaiki container agar lebih lebar di layar besar */
+.container-xxl {
+    max-width: 2560px !important; 
+}
+
+html, body {
+    height: 100%;
+}
+
+.content {
+    min-height: calc(100vh - 80px); 
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-footer {
+    background: #fff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.sidebar .nav-link {
+    padding-left: 12px !important;
+}
+
+.sidebar .nav-link i {
+    width: 28px !important;
+    height: 28px !important;
+    margin-right: 8px !important;
+}
+/* PERBAIKAN FINAL ALIGNMENT SIDEBAR */
+.sidebar .navbar .navbar-nav .nav-link {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar .navbar .navbar-nav .nav-link i {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-right: 10px !important;
+    border-radius: 50% !important;
+    font-size: 16px !important;
+}
+
+
+/* Biar judul admin wrap, tidak overflow */
+.admin-title {
+    font-size: 1.1rem;
+    line-height: 1.2;
+    white-space: normal !important;     /* IZINKAN turun baris */
+    word-break: break-word;             /* Pecah jika terlalu panjang */
+}
+
+/* Pada layar kecil: perkecil font & beri margin */
+@media (max-width: 576px) {
+    .admin-title {
+        font-size: .95rem;
+        margin-left: 0.5rem;
+    }
+}
+
+
+/* Atur padding content agar tidak mepet */
